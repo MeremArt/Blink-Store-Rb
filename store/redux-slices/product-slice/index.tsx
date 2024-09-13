@@ -28,10 +28,10 @@ export const productSlice = createSlice({
         state.description= payload;
       },
       
-      resetTicketDetails: () => initialProductState,
+      resetProductPage: () => initialProductState,
     },
   });
   
 export const productAction = productSlice.actions;
   
-  export const{updateAmount,updateDescription,updateImage,updateName } = productAction
+  export const{updateAmount,updateDescription,updateImage,updateName,resetProductPage } = productAction;
