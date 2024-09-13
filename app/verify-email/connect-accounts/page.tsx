@@ -1,6 +1,9 @@
 "use client";
+
 import Image from "next/image";
 import React from "react";
+import { useEffect } from "react";
+
 import logo from "@/assets/images/Logo.svg";
 import { Typography } from "@/components/typography";
 import { Input } from "@/components/inputs";
@@ -9,8 +12,49 @@ import ArrowLeft from "@/assets/svg-comps/arrow-left";
 import Wallet from "@/assets/svg-comps/wallet";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Twitter from "@/assets/svg-comps/twitter";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 function Page() {
+  const router = useRouter();
+  const { connected, publicKey } = useWallet();
+
+  useEffect(() => {
+    const checkIfUserExists = async () => {
+      try {
+        if (connected && publicKey) {
+          toast.success("Welcome back!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+
+          setTimeout(() => {
+            router.push(`/createproduct`);
+          }, 3000);
+        }
+      } catch (error) {
+        console.error("Error checking user existence:", error);
+        toast.error("An error occurred. Please try again.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    };
+
+    checkIfUserExists();
+  }, [connected, publicKey, router]);
   return (
     <div className="flex flex-col items-center gap-12 flex-[1_0_0] self-stretch max-w-[42rem] h-full">
       <div className="flex flex-col items-end gap-1 self-stretch ">

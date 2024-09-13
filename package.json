@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
-    "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-backpack": "^0.1.14",
+    "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-react-ui": "^0.9.35",
     "@solana/wallet-adapter-wallets": "^0.19.32",
@@ -24,6 +24,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-redux": "^9.1.2",
+    "react-toastify": "^10.0.5",
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
