@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ReduxProvider from "@/store/provider";
+import AppWalletProvider from "@/sol-store/appwalletprovider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,9 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={''}>
+       <AppWalletProvider>
        <ReduxProvider>
           {children}
        </ReduxProvider>
+       </AppWalletProvider>
       </body>
     </html>
   );

@@ -7,7 +7,8 @@ import { Button } from "@/components/button";
 import ArrowLeft from "@/assets/svg-comps/arrow-left";
 import Wallet from "@/assets/svg-comps/wallet";
 import Twitter from "@/assets/svg-comps/twitter";
-
+// import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 function Page() {
   return (
     <div className="flex flex-col items-center gap-12 flex-[1_0_0] self-stretch max-w-[42rem] h-full">
@@ -36,6 +37,7 @@ function Page() {
             </div>
             <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch">
             <Button label="Connect Wallet" leftIcon={<Wallet/>} fit customClassName="flex w-[256px] h-[56px] px-8 py-4 justify-center items-center gap-4 bg-[#D39DFE] rounded-[32px] text-white"/>
+            {/* <WalletMultiButton className="bg-[#c2c2cccb] hover:bg-black transition-all duration-200 rounded-lg relative " /> */}
             </div>
           </div>
         </div>
