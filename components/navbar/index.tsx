@@ -2,8 +2,10 @@ import React from "react";
 import { Button } from "../button";
 import { Typography } from "../typography";
 import Image from "next/image";
+import Link from "next/link"; // Import the Link component from next/link
 
 import logo from "@/assets/images/Logo - Ribh Finance.png";
+
 export default function NavBar() {
   return (
     <div className="flex h-[88px] px-24 py-4 justify-between items-center">
@@ -12,10 +14,16 @@ export default function NavBar() {
           <Image src={logo} alt="logo" width={200} height={43.373} />
         </div>
         <div className="flex items-center gap-12">
-          <Typography>Home</Typography>
-          <Typography>Products</Typography>
-          <Typography>Contact Us</Typography>
-          {/* <WalletModalButton /> */}
+          {/* Use Link component to route to /overview */}
+          <Link href="/overview">
+            <Typography className="cursor-pointer">Home</Typography>
+          </Link>
+          
+          {/* Use Link component to route to /products/create-products */}
+          <Link href="/products/create-products">
+            <Typography className="cursor-pointer">Products</Typography>
+          </Link>
+          
         </div>
       </div>
       <div>

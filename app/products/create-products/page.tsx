@@ -97,7 +97,7 @@ const router =useRouter();
                 </div>
                  </div>
                 <div className='w-full'>
-                    <Button  type="submit" label='Continue' customClassName='flex h-[56px] px-6 py-4 justify-center items-center gap-1 self-stretch bg-[#7839EE] rounded-[32px] text-white'/>
+                    <Button  type='submit' label='Continue' customClassName='flex h-[56px] px-6 py-4 justify-center items-center gap-1 self-stretch bg-[#7839EE] rounded-[32px] text-white'/>
                 </div>
             </form>
     </div>

@@ -25,6 +25,8 @@ function Page() {
     const checkIfUserExists = async () => {
       try {
         if (connected && publicKey) {
+
+          
           toast.success("Welcome back!", {
             position: "top-right",
             autoClose: 5000,
@@ -34,9 +36,10 @@ function Page() {
             draggable: true,
             progress: undefined,
           });
+          localStorage.setItem("publicKey", publicKey.toString());
 
           setTimeout(() => {
-            router.push(`/createproduct`);
+            router.push(`/products/create-products`);
           }, 3000);
         }
       } catch (error) {

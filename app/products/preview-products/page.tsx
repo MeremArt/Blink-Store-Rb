@@ -7,24 +7,115 @@ import ProductImage from '@/components/product-image'
 import { Typography } from '@/components/typography'
 import test from '@/assets/images/test.jpeg';
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import WideIcon from '@/assets/svg-comps/wide-icon'
 import DollarIcon from '@/assets/svg-comps/usdc'
 import SuccessModal from '@/components/success-modal'
 import progress2 from '@/assets/images/Progress2.svg'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PlaceHolder from '@/assets/images/placeholder.jpg'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { resetProductPage } from '@/store/redux-slices/product-slice'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { addEvent } from '@/store/redux-slices/event-slices'
 function Page() {
-    const [showModal , setShowModal] = useState<boolean>(false)
+
+    const [showModal , setShowModal] = useState<boolean>(false);
+    const [merchantId , setMerchantId] = useState<string | null>('');
+    const [isLoading , setIsLoading]= useState<boolean>(false);
     const product = useSelector((state:any)=> state.product);
-    const {name, image,imageName,amount,description}=product;
+    const event = useSelector((state: any) => state.event.events);
 
-    const handleSumbit=()=>{
+    // Ensure event is not undefined or empty
+    const details = event && event.length > 0 ? event[0] : null;
+    const blink = details?.blink || ""; // Safely access blink
+  
+    const dispatch = useDispatch();
+    const router = useRouter();
 
+    console.log(blink,'blink')
+    const {
+        name,
+         image,
+         imageName,
+         amount,
+         description
+        }=product;
+
+    useEffect(()=>{
+        const getUserId = localStorage.getItem('publicKey');
+          setMerchantId(getUserId)
+        },[])
+
+
+        const checkstate = () => {
+            return (
+              name &&
+              description &&
+              amount > 0 &&
+              image
+            );
+          };
+
+    const getState = checkstate();
+
+
+  const submitEventForm = async () => {
+    setIsLoading(true);
+    if (!getState) {
+      console.error("Validation failed");
+      setIsLoading(false);
+      toast.error("nothing to send");
+      return;
     }
+
+    const formObject = {
+    merchantId:merchantId,
+      name: name,
+      image: image,
+      description: description,
+      price: amount,
+    };
+     
+    try {
+      const response = await axios.post(
+        'https://ribh-store.vercel.app/api/v1/product',
+        formObject,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log('response');
+        console.log(response.data)
+        const{message, product, blink} = response.data.data;
+        dispatch(addEvent({ product, blink }));
+        dispatch(resetProductPage());
+        toast.success("Event Created!");
+        setShowModal(true)
+        setIsLoading(false);
+    } catch (err: any) {
+      const errorMessage = err?.message;
+      console.log(err, "LETS SEE");
+
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+      setIsLoading(false);
+    }
+  };
+
+  const handleCloseModal =()=>{
+    setShowModal(false)
+  }
+    
   return (
         <>
-        {showModal && (<SuccessModal/>)}
+        {showModal && (<SuccessModal onClick={handleCloseModal} value={showModal} />)}
         <div className='mx-auto w-[826px] h-[48px] relative'>
            <Image className='absolute' src={progress2} alt={progress2} fill/>
         </div>
@@ -37,7 +128,7 @@ function Page() {
             <div className='flex flex-col items-start gap-10 self-stretch'>
             <div className='flex flex-col items-start gap-6 self-stretch'>
                 <div className='flex relative h-[326px] w-full items-start gap-1 self-stretch'>
-                    <Image className='absolute rounded-[8px]' src={image ? image : PlaceHolder} alt='preview-image' fill/>
+                    <Image className='absolute rounded-[8px]' src={ image ? image : PlaceHolder} alt='preview-image' fill/>
                     <div className="absolute w-full top-0 flex p-2 justify-end items-center gap-1 flex-1 ">
                     <WideIcon/>
                      </div>
@@ -72,7 +163,11 @@ function Page() {
                 </div>
              </div>
             <div className='w-full'>
-                <Button label='sumbit' customClassName='flex h-[56px] px-6 py-4 justify-center items-center gap-1 self-stretch bg-[#7839EE] rounded-[32px] text-white'/>
+                <Button 
+                label='sumbit'
+                loading={isLoading}
+                 customClassName='flex h-[56px] px-6 py-4 justify-center items-center gap-1 self-stretch bg-[#7839EE] rounded-[32px] text-white'
+                  onClick={submitEventForm}/>
             </div>
             </div>
     </div>
