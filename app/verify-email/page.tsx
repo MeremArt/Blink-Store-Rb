@@ -1,8 +1,7 @@
 'use client';
-import Image from "next/image";
 import { redirect } from 'next/navigation';
-export default function Home() {
+
+export default function Page() {
   redirect('/verify-email/verify');
   return null;
-  
 }
