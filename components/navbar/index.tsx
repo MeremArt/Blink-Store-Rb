@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "../button";
 import { Typography } from "../typography";
 import Image from "next/image";
-import Link from "next/link"; // Import the Link component from next/link
+import Link from "next/link"; 
 
 import logo from "@/assets/images/Logo - Ribh Finance.png";
 import Hamburger from "@/assets/svg-comps/purple-hamburger";
@@ -30,7 +30,7 @@ export default function NavBar() {
           </Link>
         </div>
         <div className="flex items-center gap-12 mmd:hidden">
-          <Link href="/Transactionfetch">
+          <Link href="/overview">
             <Typography className="cursor-pointer">Home</Typography>
           </Link>
 

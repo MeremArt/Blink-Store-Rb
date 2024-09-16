@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const initialProductState = {
   name: "",
-  amount: 0,
+  amount: '',
   image: "", 
   imageName:"",
   description:"",

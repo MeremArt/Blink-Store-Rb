@@ -30,66 +30,46 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import UpDown from "@/assets/svg-comps/up-and-down";
 function Page() {
   const dispatch = useDispatch();
-  //   const transactionData = useSelector(
-  //     (state: any) => state.transaction.transaction
-  //   );
-  //   const isTransactionSuccessful = useSelector(
-  //     (state: any) => state.transaction.success
-  //   );
   const { publicKey } = useWallet(); // Get the public key from the wallet
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  //   useEffect(() => {
-  //     const getUserTransactions = async () => {
-  //       const getUserId = localStorage.getItem("publicKey");
-  //       const response = await axios.get(
-  //         `https://ribh-store.vercel.app/api/v1/transaction?publicKey=4CE8tAXQWtesSuqiR8vsLwtKN1zMoif45RzdzWCD5fz9&numTx=2`
-  //       );
-  //       const { data, success, message } = response.data;
-  //       console.log(response);
-  //       dispatch(updateTransaction(data));
-  //       dispatch(updateTransactionState(success));
-  //       toast.success(message, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //       });
-  //     };
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const transactionData = useSelector((state:any)=> state.transaction.transaction);
+  const isTransactionSuccessful= useSelector((state:any)=> state.transaction.success);
 
-  //     getUserTransactions();
-  //   }, []);
-
-  useEffect(() => {
-    // Fetch transactions only if publicKey is available
-    if (publicKey) {
-      const fetchTransactions = async () => {
-        setLoading(true);
-        try {
-          const response = await fetch(
-            `https://ribh-store.vercel.app/api/v1/transaction?publicKey=${publicKey.toString()}&numTx=2`
-          );
-          const result = await response.json();
-
-          if (result.success) {
-            setTransactions(result.data);
-          } else {
-            setError("Failed to fetch transactions.");
+    useEffect(() => {
+      const getUserTransactions = async () => {
+        try{
+            const response = await axios.get(
+                `https://ribh-store.vercel.app/api/v1/transaction?publicKey=${publicKey?.toString()}&numTx=2`
+              );
+              const { data, success, message } = response.data;
+              console.log(response);
+              if (response) {
+                  dispatch(updateTransaction(data));
+                  dispatch(updateTransactionState(success));
+              } else {
+              setError("Failed to fetch transactions.");
           }
-        } catch (err: any) {
-          setError(err.message);
-        } finally {
-          setLoading(false);
+              toast.success(message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+        }catch(err:any){
+            setError(err.message);
         }
+        
       };
 
-      fetchTransactions();
-    }
-  }, [publicKey]); // Re-fetch if publicKey changes
+      getUserTransactions();
+    }, [publicKey]);
+
+
 
   if (!publicKey) {
     return <div>Please connect your wallet to view transactions.</div>;
@@ -219,7 +199,7 @@ function Page() {
           </Typography>
         </div>
         <div className="flex items-start  self-stretch border">
-          {/* {isTransactionSuccessful ? (
+          {isTransactionSuccessful ? (
             <div className="w-full">
               {transactionData.map((items, index) => (
                 <TableComp
@@ -233,7 +213,7 @@ function Page() {
             </div>
           ) : (
             <div>loading...</div>
-          )} */}
+          )}
 
           {/* <div className="flex p-2 items-start gap-1 self-stretch">
 
