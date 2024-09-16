@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) =>{
         <div className='w-full'>
             <SecondNavBar/>
         </div>
-        <div className=' mx-auto flex h-full py-6 justify-center items-start gap-4'>
+        <div className=' md:mx-auto flex mxs:w-full h-full py-6 md:justify-center md:items-start gap-4 mxs:p-[1rem] mmd:flex-col'>
             {children}
         </div>
     </div>

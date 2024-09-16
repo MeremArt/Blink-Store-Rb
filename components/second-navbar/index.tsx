@@ -11,18 +11,18 @@ export default function SecondNavBar() {
     const router = useRouter();
 
   return (
-    <div className='flex h-[88px] px-[96px] w-full border py-4 justify-between items-center'>
+    <div className='flex h-[88px] px-[96px] mxs:p-[1rem] w-full py-4 justify-between items-center'>
         <div>
                 <Image src={logo} alt='logo' width={200} height={43.373}/>
             </div>
         <div className='flex items-center gap-[32px]'>
             <div className='flex items-center gap-[16px]'>
-                <Typography>James Dancer</Typography>
+                <Typography customClassName='mmd:hidden'>James Dancer</Typography>
                 <div className=' relative flex w-[48px] h-[48px] justify-center items-center'>
                     <Image src={avatar} alt='avatar' fill/>
                 </div>
             </div>
-            <div>
+            <div className='mmd:hidden'>
                 <Button
                  label='Create Product'
                   leftIcon={<Plus/>}

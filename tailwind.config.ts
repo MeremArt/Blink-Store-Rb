@@ -68,7 +68,7 @@ const config: Config = {
         mlg: { max: "1023px" },
         // => @media (max-width: 1023px){...}
 
-        mmd: { max: "767px" },
+        mmd: { max: "769px" },
         // => @media (max-width: 767px){...}
 
         msm: { max: "639px" },
