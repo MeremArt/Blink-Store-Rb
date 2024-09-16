@@ -55,7 +55,7 @@ const InputComponent = <FV extends FieldValues>(
       {label && (
         <label
           className={cn(
-            "mb-2 w-fit first-letter:capitalize text-[0.875rem] text-[#6C2BE6]",
+            "mb-2 w-fit first-letter:capitalize text-[0.875rem] mmd:placeholder:text-[0.75rem] text-[#6C2BE6]",
             errorMsg ? "text-error" : "",
             labelCustomClassName
           )}
@@ -82,7 +82,7 @@ const InputComponent = <FV extends FieldValues>(
         <input
             onChange={onChange}
           className={cn(
-            `peer block w-full appearance-none  px-4 py-3 placeholder:text-[#48258B] font-Inter  font-semibold leading-normal placeholder:font-semibold placeholder:text-lg bg-[#FAF7FF] autofill:none focus:outline-none `,
+            `peer block w-full appearance-none  px-4 py-3 placeholder:text-[#48258B] placeholder:opacity-[30%] font-Inter  font-semibold leading-normal placeholder:font-semibold placeholder:text-lg mmd:placeholder:text-[0.875rem] bg-[#FAF7FF] autofill:none focus:outline-none `,
             bgcolor,
             rest.disabled
               ? "disabled:cursor-not-allowed disabled:bg-primary-light-100 disabled:font-semibold  disabled:text-gray-3"

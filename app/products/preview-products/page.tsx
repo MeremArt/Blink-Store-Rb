@@ -19,7 +19,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { resetProductPage } from '@/store/redux-slices/product-slice'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { addEvent } from '@/store/redux-slices/event-slices'
+import { addEvent } from '@/store/redux-slices/event-slices';
+import newPlaceholder from '@/assets/images/gallery.png';
 function Page() {
 
     const [showModal , setShowModal] = useState<boolean>(false);
@@ -28,14 +29,12 @@ function Page() {
     const product = useSelector((state:any)=> state.product);
     const event = useSelector((state: any) => state.event.events);
 
-    // Ensure event is not undefined or empty
+    
     const details = event && event.length > 0 ? event[0] : null;
-    const blink = details?.blink || ""; // Safely access blink
+    const blink = details?.blink || "";
   
     const dispatch = useDispatch();
     const router = useRouter();
-
-    console.log(blink,'blink')
     const {
         name,
          image,
@@ -89,8 +88,6 @@ function Page() {
           },
         }
       );
-      console.log('response');
-        console.log(response.data)
         const{message, product, blink} = response.data.data;
         dispatch(addEvent({ product, blink }));
         dispatch(resetProductPage());
@@ -116,25 +113,25 @@ function Page() {
   return (
         <>
         {showModal && (<SuccessModal onClick={handleCloseModal} value={showModal} />)}
-        <div className='mx-auto w-[826px] h-[48px] relative'>
+        <div className='mx-auto w-[826px] h-[48px] relative mmd:hidden'>
            <Image className='absolute' src={progress2} alt={progress2} fill/>
         </div>
-        <div className=' mx-auto flex flex-col items-start w-[826px] px-[136px] py-8 gap-8 bg-[#FFF] shadow-[0_0_32px_0_rgba(0,_0,_0,_0.08)]'>
+        <div className=' mx-auto flex flex-col items-start lg:w-[826px] mmd:w-full px-[136px]  mxs:px-[24px] py-8 gap-8 mxs:gap-[1.5rem]  bg-[#FFF] shadow-[0_0_32px_0_rgba(0,_0,_0,_0.08)]'>
         <div className='w-full'>
-            <Typography customClassName='text-black text-center text-[28px] font-medium font-inter tracking[-0.014em]'>
+            <Typography customClassName='text-black text-center text-[28px] mmd:text-[20px] font-medium font-inter tracking[-0.014em]'>
             Preview Product
             </Typography>
         </div>
             <div className='flex flex-col items-start gap-10 self-stretch'>
             <div className='flex flex-col items-start gap-6 self-stretch'>
-                <div className='flex relative h-[326px] w-full items-start gap-1 self-stretch'>
-                    <Image className='absolute rounded-[8px]' src={ image ? image : PlaceHolder} alt='preview-image' fill/>
+                <div className='flex relative h-[326px] mxs:h-[240px] w-full items-start gap-1 self-stretch'>
+                    <Image className='absolute rounded-[8px]' src={ image ? image : newPlaceholder} alt='preview-image' fill/>
                     <div className="absolute w-full top-0 flex p-2 justify-end items-center gap-1 flex-1 ">
                     <WideIcon/>
                      </div>
                 </div>
                 <div className='flex flex-col items-start gap-2 self-stretch'>
-                    <Typography customClassName='text-[#5B5B5B] font-inter text-base font-normal leading-normal'>Amount</Typography>
+                    <Typography customClassName='text-[#5B5B5B] font-inter text-base  mxs:text-[0.875rem] font-normal leading-normal'>Amount</Typography>
                     <div className='flex flex-col items-start gap-2 self-stretch'>
                         <div className='flex items-center gap-2 self-stretch'>
                             <DollarIcon/>
@@ -143,21 +140,21 @@ function Page() {
                             </Typography>
                         </div>
                         <div>
-                            <Typography className='text-[#A0A0A1] font-inter text-lg font-normal leading-normal'>
+                            <Typography className='text-[#A0A0A1] font-inter text-lg mxs:text-[1rem] font-normal leading-normal'>
                             ≈ ₦35,479.97
                             </Typography>
                         </div>
                     </div>
                 </div>
                 <div className='flex flex-col items-start gap-2 self-stretch'>
-                    <Typography className='text-[#5B5B5B] font-inter text-base font-normal leading-normal'>Product Name</Typography>
+                    <Typography className='text-[#5B5B5B] font-inter text-base mxs:text-[0.875rem] font-normal leading-normal'>Product Name</Typography>
                     <Typography className='text-[#000] font-inter text-lg font-medium leading-normal'>{name}</Typography>
                 </div>
                 <div className='flex flex-col items-start gap-2 self-stretch'>
-                <Typography className='text-[#5B5B5B] font-inter text-base font-normal leading-normal'>
+                <Typography className='text-[#5B5B5B] font-inter text-base  mxs:text-[0.875rem] font-normal leading-normal'>
                 Description
                 </Typography>
-                <Typography className='text-[#000] font-inter text-xl font-medium leading-normal'>
+                <Typography className='text-[#000] font-inter text-xl mxs:text-base font-medium leading-normal'>
                 {description}
                 </Typography>
                 </div>
@@ -166,7 +163,7 @@ function Page() {
                 <Button 
                 label='sumbit'
                 loading={isLoading}
-                 customClassName='flex h-[56px] px-6 py-4 justify-center items-center gap-1 self-stretch bg-[#7839EE] rounded-[32px] text-white'
+                 customClassName='flex h-[56px] px-6 py-4  justify-center items-center gap-1 self-stretch bg-[#7839EE] rounded-[32px] text-white'
                   onClick={submitEventForm}/>
             </div>
             </div>
