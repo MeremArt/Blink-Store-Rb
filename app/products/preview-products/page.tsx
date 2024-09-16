@@ -1,21 +1,20 @@
-'use client'
+"use client";
 
-import { Button } from '@/components/button'
-import Description from '@/components/description'
-import { Input } from '@/components/inputs'
-import ProductImage from '@/components/product-image'
-import { Typography } from '@/components/typography'
-import test from '@/assets/images/test.jpeg';
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
-import WideIcon from '@/assets/svg-comps/wide-icon'
-import DollarIcon from '@/assets/svg-comps/usdc'
-import SuccessModal from '@/components/success-modal'
-import progress2 from '@/assets/images/Progress2.svg'
-import { useDispatch, useSelector } from 'react-redux'
-import PlaceHolder from '@/assets/images/placeholder.jpg'
+import { Button } from "@/components/button";
+import Description from "@/components/description";
+import { Input } from "@/components/inputs";
+import ProductImage from "@/components/product-image";
+import { Typography } from "@/components/typography";
+import test from "@/assets/images/test.jpeg";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import WideIcon from "@/assets/svg-comps/wide-icon";
+import DollarIcon from "@/assets/svg-comps/usdc";
+import SuccessModal from "@/components/success-modal";
+import progress2 from "@/assets/images/Progress2.svg";
+import { useDispatch, useSelector } from "react-redux";
+import PlaceHolder from "@/assets/images/placeholder.jpg";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { resetProductPage } from '@/store/redux-slices/product-slice'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -43,44 +42,44 @@ function Page() {
          description
         }=product;
 
-    useEffect(()=>{
-        const getUserId = localStorage.getItem('publicKey');
-          setMerchantId(getUserId)
-        },[])
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
 
-        const checkstate = () => {
-            return (
-              name &&
-              description &&
-              amount > 0 &&
-              image
-            );
-          };
+  const { name, image, amount, description } = product;
 
-    const getState = checkstate();
+  useEffect(() => {
+    const getUserId = localStorage.getItem("publicKey");
+    setMerchantId(getUserId);
+  }, []);
 
+  const checkState = () => {
+    return name && description && amount > 0 && image;
+  };
+
+  const getState = checkState();
 
   const submitEventForm = async () => {
     setIsLoading(true);
-    if (!getState) {
-      console.error("Validation failed");
-      setIsLoading(false);
-      toast.error("nothing to send");
-      return;
-    }
+    // if (!getState) {
+    //   console.error('Validation failed')
+    //   setIsLoading(false)
+    //   toast.error('Nothing to send')
+    //   return
+    // }
 
     const formObject = {
-    merchantId:merchantId,
+      merchantId: merchantId,
       name: name,
       image: image,
       description: description,
       price: amount,
     };
-     
+
     try {
       const response = await axios.post(
-        'https://ribh-store.vercel.app/api/v1/product',
+        "https://ribh-store.vercel.app/api/v1/product",
         formObject,
         {
           headers: {
@@ -88,15 +87,17 @@ function Page() {
           },
         }
       );
-        const{message, product, blink} = response.data.data;
-        dispatch(addEvent({ product, blink }));
-        dispatch(resetProductPage());
-        toast.success("Event Created!");
-        setShowModal(true)
-        setIsLoading(false);
+      console.log("response", response.data);
+      const { message, product, blink } = response.data.data;
+      dispatch(addEvent({ product, blink }));
+      dispatch(resetProductPage());
+      toast.success("Event Created!");
+      setShowModal(true);
+      setIsLoading(false);
+
     } catch (err: any) {
-      const errorMessage = err?.message;
-      console.log(err, "LETS SEE");
+      const errorMessage = err?.message || "An error occurred";
+      console.log(err, "Error");
 
       toast.error(errorMessage, {
         position: "top-right",
@@ -106,11 +107,12 @@ function Page() {
     }
   };
 
-  const handleCloseModal =()=>{
-    setShowModal(false)
-  }
-    
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
+
         <>
         {showModal && (<SuccessModal onClick={handleCloseModal} value={showModal} />)}
         <div className='mx-auto w-[826px] h-[48px] relative mmd:hidden'>
@@ -120,7 +122,7 @@ function Page() {
         <div className='w-full'>
             <Typography customClassName='text-black text-center text-[28px] mmd:text-[20px] font-medium font-inter tracking[-0.014em]'>
             Preview Product
-            </Typography>
+          </Typography>
         </div>
             <div className='flex flex-col items-start gap-10 self-stretch'>
             <div className='flex flex-col items-start gap-6 self-stretch'>
@@ -166,10 +168,19 @@ function Page() {
                  customClassName='flex h-[56px] px-6 py-4  justify-center items-center gap-1 self-stretch bg-[#7839EE] rounded-[32px] text-white'
                   onClick={submitEventForm}/>
             </div>
-            </div>
-    </div>
-        </>
-  )
+          </div>
+          <div className="w-full">
+            <Button
+              label="Submit"
+              loading={isLoading}
+              customClassName="flex h-[56px] px-6 py-4 justify-center items-center gap-1 self-stretch bg-[#7839EE] rounded-[32px] text-white"
+              onClick={submitEventForm}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Page
+export default Page;
