@@ -66,32 +66,32 @@ function Page() {
           leftIcon={<ArrowLeft />}
           fit
           size="small"
-          customClassName=" text-[#7839EE] font-Inter text-base font-semibold leading-normal rounded-[2rem] border border-[#7839EE] "
+          customClassName=" text-[#7839EE] mmd:text-white mxs:text-white mxs:bg-[#7839EE] mmd:bg-[#7839EE] font-Inter text-base mxs:text-[0.875rem] font-semibold leading-normal rounded-[2rem] border border-[#7839EE] "
         />
       </div>
 
-      <div className="flex flex-col items-start gap-14 p-[72px_54px_104px_54px] self-stretch rounded-lg bg-white shadow-[0px_0px_32px_0px_rgba(0,0,0,0.08)]">
-        <div className="flex flex-col items-start gap-10 self-stretch">
-          <div className="flex flex-col items-center gap-10 self-stretch">
+      <div className="flex flex-col items-start gap-14 p-[72px_54px_104px_54px] mxs:p-[32px_24px_12px_24px] self-stretch rounded-lg bg-white shadow-[0px_0px_32px_0px_rgba(0,0,0,0.08)]">
+        <div className="flex flex-col items-start gap-10 mxs:gap-4 self-stretch">
+          <div className="flex flex-col items-center gap-10 mxs:gap-4 self-stretch">
             <div>
               <Image src={logo} alt="logo" width={86.733} height={86.733} />
             </div>
             <div className="flex flex-col gap-8 self-stretch text-center">
-              <Typography customClassName=" text-[#48258B] text-center font-Inter text-2xl font-semibold leading-normal">
+              <Typography customClassName=" text-[#48258B] text-center font-Inter text-2xl mxs:text-[18px] font-semibold leading-normal">
                 One last thing...
               </Typography>
-              <Typography customClassName="text-[#5B5B5B] text-center font-Inter text-base font-medium leading-normal">
+              <Typography customClassName="text-[#5B5B5B] text-center font-Inter text-base mxs:font-semi-bold font-medium leading-normal">
                 Connect your Twitter/X account and Wallet to proceed
               </Typography>
             </div>
           </div>
           <div className="flex flex-col items-start self-stretch">
-            <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch">
+            <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch border-b">
               <Button
                 label="Connect Account"
                 leftIcon={<Twitter />}
                 fit
-                customClassName="flex w-[256px] h-[56px] px-8 py-4 justify-center items-center gap-4 bg-[#000] rounded-[32px] text-white"
+                customClassName="flex w-[256px] h-[56px] px-8 py-4 justify-center  mxs:text-[0.875rem] items-center gap-4 bg-[#000] rounded-[32px] text-white"
               />
             </div>
             <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch">
@@ -102,7 +102,7 @@ function Page() {
         <div className="w-full ">
           <Button
             label="proceed"
-            customClassName="flex h-[56px] px-6 py-4 justify-center items-center gap-1 self-stretch rounded-[32px] bg-[#BFBFBF] text-white"
+            customClassName="flex h-[56px] px-6 py-4 justify-center items-center mxs:text-[0.875rem] gap-1 self-stretch rounded-[32px] bg-[#BFBFBF] text-white"
           />
         </div>
       </div>

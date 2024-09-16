@@ -77,3 +77,11 @@ export function formatDate(dateString: string): string {
   const dateStr = "2024-09-09T19:43:45.000Z";
   console.log(formatTime(dateStr)); // Output: "7:43pm"
   
+
+export const formatAmount = (value: string) => {
+    // Remove any commas from the string
+    const numericValue = value.replace(/,/g, '');
+    
+    // Format the number with commas
+    return new Intl.NumberFormat().format(Number(numericValue));
+  };

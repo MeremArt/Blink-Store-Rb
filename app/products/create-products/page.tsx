@@ -13,6 +13,7 @@ import { updateName,updateDescription,updateAmount,updateImage } from '@/store/r
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from "next/navigation";
 import DollarIcon from '@/assets/svg-comps/usdc'
+import { formatAmount } from '@/app/overview/dummydata'
 
 function Page() {
 const[isLoading , setIsLoading]= useState<boolean>(false);
@@ -21,19 +22,23 @@ const selector = useSelector((state :any)=> state.product);
 const {name, image,imageName,amount,description} = selector
 const dispatch =useDispatch();
 const router =useRouter();
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = e.target;
-        switch (id) {
-          case "ProductName":
-            dispatch(updateName(value));
-            break;
-          case "Amount":
-            dispatch(updateAmount(value));
-            break;
-          default:
-            break;
-        }
-      };
+const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const { id, value } = e.target;
+  
+
+  if (id === "Amount") {
+    const formattedValue = formatAmount(value);
+    dispatch(updateAmount(formattedValue));
+  } else {
+    switch (id) {
+      case "ProductName":
+        dispatch(updateName(value));
+        break;
+      default:
+        break;
+    }
+  }
+};
       const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const { id, value } = e.target;
         switch (id) {
