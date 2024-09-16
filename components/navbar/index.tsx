@@ -6,26 +6,37 @@ import Link from "next/link"; // Import the Link component from next/link
 
 import logo from "@/assets/images/Logo - Ribh Finance.png";
 import Hamburger from "@/assets/svg-comps/purple-hamburger";
-import smallLogo from '@/assets/images/Logosmall.svg'
+import smallLogo from "@/assets/images/Logosmall.svg";
 export default function NavBar() {
   return (
     <div className="flex h-[88px]  mmd:px-[16px]  mmd:py-[16px] px-24 py-4 justify-between items-center">
       <div className="flex items-center gap-10">
         <div>
-          <Image src={logo} className="mmd:hidden" alt="logo" width={200} height={43.373} />
-          <Image src={smallLogo} className="lg:hidden" alt="logo" width={136} height={35.2} />
+          <Link href="/">
+            <Image
+              src={logo}
+              className="mmd:hidden"
+              alt="logo"
+              width={200}
+              height={43.373}
+            />
+            <Image
+              src={smallLogo}
+              className="lg:hidden"
+              alt="logo"
+              width={136}
+              height={35.2}
+            />
+          </Link>
         </div>
         <div className="flex items-center gap-12 mmd:hidden">
-
-          <Link href="/overview">
+          <Link href="/Transactionfetch">
             <Typography className="cursor-pointer">Home</Typography>
           </Link>
-          
-         
+
           <Link href="/products/create-products">
             <Typography className="cursor-pointer">Products</Typography>
           </Link>
-          
         </div>
       </div>
       <div className="mmd:hidden">
@@ -35,7 +46,7 @@ export default function NavBar() {
         />
       </div>
       <div className="lg:hidden">
-        <Hamburger/>
+        <Hamburger />
       </div>
     </div>
   );
