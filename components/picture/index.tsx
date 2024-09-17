@@ -15,7 +15,7 @@ export default function PictureIcon() {
         stroke="#A6A6A6"
         strokeWidth="3"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

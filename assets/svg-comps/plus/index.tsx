@@ -14,7 +14,7 @@ export default function Plus() {
         stroke="white"
         strokeWidth="2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

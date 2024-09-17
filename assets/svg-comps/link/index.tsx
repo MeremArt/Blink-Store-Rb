@@ -14,7 +14,7 @@ export default function CopyLink() {
         stroke="#5B5B5B"
         strokeWidth="2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

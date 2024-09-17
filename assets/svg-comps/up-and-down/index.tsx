@@ -16,7 +16,7 @@ export default function UpDown() {
         stroke="#7839EE"
         strokeWidth="2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

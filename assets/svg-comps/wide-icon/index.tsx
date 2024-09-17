@@ -15,7 +15,7 @@ export default function WideIcon() {
         stroke="white"
         strokeWidth="2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
