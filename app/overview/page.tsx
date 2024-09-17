@@ -28,15 +28,25 @@ import { formatDate } from "./dummydata";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import UpDown from "@/assets/svg-comps/up-and-down";
+interface Transaction {
+  signature: string;
+  date: string;
+  amount: number;
+}
 function Page() {
+  const transactionData = useSelector(
+    (state: { transaction: { transaction: Transaction[] } }) =>
+      state.transaction.transaction
+  );
+
   const dispatch = useDispatch();
   const { publicKey } = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const transactionData = useSelector(
-    (state: any) => state.transaction.transaction
-  );
+  // const transactionData = useSelector(
+  //   (state: any) => state.transaction.transaction
+  // );
   const isTransactionSuccessful = useSelector(
     (state: any) => state.transaction.success
   );
@@ -206,6 +216,7 @@ function Page() {
             <div className="w-full">
               {transactionData.map((items, index) => (
                 <TableComp
+                  key={index}
                   text1={items.signature}
                   text2={items.signature}
                   text3={formatDate(items.date)}

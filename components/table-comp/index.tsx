@@ -6,7 +6,7 @@ type TableCompProps = {
   text2: string;
   text3: string;
   text4: string;
-  text5: string;
+  text5: number;
 };
 export default function TableComp(prop: TableCompProps) {
   const { text1, text2, text4, text3, text5 } = prop;
