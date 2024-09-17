@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
-
+import { Suspense } from "react";
 function Page() {
   const router = useRouter();
   const { connected, publicKey } = useWallet();
@@ -25,8 +25,6 @@ function Page() {
     const checkIfUserExists = async () => {
       try {
         if (connected && publicKey) {
-
-          
           toast.success("Welcome back!", {
             position: "top-right",
             autoClose: 5000,
@@ -95,7 +93,7 @@ function Page() {
               />
             </div>
             <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch">
-              <WalletMultiButton />
+              {/* <WalletMultiButton /> */}
             </div>
           </div>
         </div>
