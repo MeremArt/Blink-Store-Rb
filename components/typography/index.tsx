@@ -24,23 +24,23 @@ const typography = cva("", {
       "body-s": "text-body-s mxs:text-body-xs",
       "body-xs": "text-body-xs mxs:text-body-xxs",
       "body-xxs": "text-body-xxs mxs:text-body-xxxs",
-      "body-xxxs":"text-body-xxxs mxs:text-body-xxs",
-      "number":"text-number mxs:text-body-xl",
+      "body-xxxs": "text-body-xxxs mxs:text-body-xxs",
+      number: "text-number mxs:text-body-xl",
     },
     font: {
       Ubuntu: "Ubuntu",
       "open-sans": "open-sans",
     },
     color: {
-        primary: "bg-primary-main",
-        buttonColor:"text-buttonColor",
-        fontgreenishColor:"text-fontgreenishColor",
-        fontBodyMGreyishColor:"text-fontBodyMGreyishColor",
-        fontBodyRGreyishColor:"text-fontBodyRGreyishColor",
-        fontAvatarGreyishColor:"text-fontAvatarGreyishColor",
-        fontBodyPurpishColor:'text-fontBodyPurpishColor',
-        fontBodyWhiteishColor:"text-fontBodyWhiteishColor", 
-        numberPurple:"text-numberPurple"   
+      primary: "bg-primary-main",
+      buttonColor: "text-buttonColor",
+      fontgreenishColor: "text-fontgreenishColor",
+      fontBodyMGreyishColor: "text-fontBodyMGreyishColor",
+      fontBodyRGreyishColor: "text-fontBodyRGreyishColor",
+      fontAvatarGreyishColor: "text-fontAvatarGreyishColor",
+      fontBodyPurpishColor: "text-fontBodyPurpishColor",
+      fontBodyWhiteishColor: "text-fontBodyWhiteishColor",
+      numberPurple: "text-numberPurple",
     },
     fontWeight: {
       thin: "font-thin",
@@ -84,7 +84,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
   } = props;
 
   // Resolved tag
-  const Tag = (tag ||
+  const Tag: any = (tag ||
     variantMapping[variant] ||
     "p") as keyof JSX.IntrinsicElements;
 
@@ -113,4 +113,3 @@ const Typography: React.FC<TypographyProps> = (props) => {
 };
 
 export { Typography };
-
