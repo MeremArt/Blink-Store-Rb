@@ -18,7 +18,6 @@ import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 function Page() {
- 
   return (
     <div className="flex flex-col items-center gap-12 flex-[1_0_0] self-stretch max-w-[42rem] h-full">
       <div className="flex flex-col items-end gap-1 self-stretch ">
@@ -56,11 +55,11 @@ function Page() {
               />
             </div>
             <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch">
-              <WalletMultiButton />
+              {/* <WalletMultiButton /> */}
             </div>
           </div>
         </div>
-        <div className="w-full ">
+        <div className="w-full">
           <Button
             label="proceed"
             customClassName="flex h-[56px] px-6 py-4 justify-center items-center gap-1 self-stretch rounded-[32px] bg-[#BFBFBF] text-white"
