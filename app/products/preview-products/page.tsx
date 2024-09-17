@@ -77,7 +77,7 @@ function Page() {
       const { message, product, blink } = response.data.data;
       dispatch(addEvent({ product, blink }));
       dispatch(resetProductPage());
-      toast.success("Event Created!");
+      toast.success("Product Created!");
       setShowModal(true);
       setIsLoading(false);
     } catch (err: any) {
