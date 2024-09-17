@@ -16,6 +16,7 @@ import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 
 import { TipLinkWalletAdapter } from "@tiplink/wallet-adapter";
 import { TipLinkWalletAutoConnectV2 } from "@tiplink/wallet-adapter-react-ui";
+import { Suspense } from "react";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 export default function AppWalletProvider({
@@ -38,13 +39,11 @@ export default function AppWalletProvider({
     ],
     [network]
   );
-  const searchParams = useSearchParams();
+
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets}>
-        <TipLinkWalletAutoConnectV2 isReady query={searchParams}>
-          <WalletModalProvider>{children}</WalletModalProvider>
-        </TipLinkWalletAutoConnectV2>
+        <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
