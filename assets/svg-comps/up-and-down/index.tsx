@@ -15,7 +15,7 @@ export default function UpDown() {
         d="M25 12V28M25 28L21 24M25 28L29 24M15 28V12M15 12L11 16M15 12L19 16"
         stroke="#7839EE"
         strokeWidth="2"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
     </svg>

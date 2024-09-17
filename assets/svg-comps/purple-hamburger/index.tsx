@@ -15,7 +15,7 @@ export default function Hamburger() {
           d="M3 12H21M3 6H21M3 18H21"
           stroke="#7839EE"
           strokeWidth="2"
-          stroke-linecap="round"
+          strokeLinecap="round"
           stroke-linejoin="round"
         />
       </g>

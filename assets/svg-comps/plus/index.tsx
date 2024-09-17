@@ -13,7 +13,7 @@ export default function Plus() {
         d="M12 5V19M5 12H19"
         stroke="white"
         strokeWidth="2"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
     </svg>

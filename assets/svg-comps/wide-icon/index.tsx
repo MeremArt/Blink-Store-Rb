@@ -14,7 +14,7 @@ export default function WideIcon() {
         d="M26 22L33 15M33 15H27M33 15V21M22 26L15 33M15 33H21M15 33L15 27"
         stroke="white"
         strokeWidth="2"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
     </svg>

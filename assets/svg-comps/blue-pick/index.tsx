@@ -13,7 +13,7 @@ export default function BluePlus() {
         d="M12 5V19M5 12H19"
         stroke="#7839EE"
         strokeWidth="2"
-        stroke-linecap="round"
+        strokeLinecap="round"
         stroke-linejoin="round"
       />
     </svg>
