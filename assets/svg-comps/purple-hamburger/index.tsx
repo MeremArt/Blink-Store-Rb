@@ -14,7 +14,7 @@ export default function Hamburger() {
           id="Icon"
           d="M3 12H21M3 6H21M3 18H21"
           stroke="#7839EE"
-          stroke-width="2"
+          strokeWidth="2"
           stroke-linecap="round"
           stroke-linejoin="round"
         />

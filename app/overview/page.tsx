@@ -30,58 +30,61 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import UpDown from "@/assets/svg-comps/up-and-down";
 function Page() {
   const dispatch = useDispatch();
-  const { publicKey } = useWallet(); // Get the public key from the wallet
-  const [transactions, setTransactions] = useState([]);
+  const { publicKey } = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const transactionData = useSelector((state:any)=> state.transaction.transaction);
-  const isTransactionSuccessful= useSelector((state:any)=> state.transaction.success);
 
-    useEffect(() => {
-      const getUserTransactions = async () => {
-        try{
-            const response = await axios.get(
-                `https://ribh-store.vercel.app/api/v1/transaction?publicKey=${publicKey?.toString()}&numTx=2`
-              );
-              const { data, success, message } = response.data;
-              console.log(response);
-              if (response) {
-                  dispatch(updateTransaction(data));
-                  dispatch(updateTransactionState(success));
-              } else {
-              setError("Failed to fetch transactions.");
-          }
-              toast.success(message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-        }catch(err:any){
-            setError(err.message);
+  const transactionData = useSelector(
+    (state: any) => state.transaction.transaction
+  );
+  const isTransactionSuccessful = useSelector(
+    (state: any) => state.transaction.success
+  );
+
+  useEffect(() => {
+    const getUserTransactions = async () => {
+      if (!publicKey) {
+        toast.error("Please Connect wallet.", {
+          position: "top-right",
+          autoClose: 5000,
+        });
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `https://ribh-store.vercel.app/api/v1/transaction?publicKey=${publicKey.toString()}&numTx=2`
+        );
+        const { data, success, message } = response.data;
+
+        if (success) {
+          dispatch(updateTransaction(data));
+          dispatch(updateTransactionState(success));
+          toast.success(message, {
+            position: "top-right",
+            autoClose: 5000,
+          });
+        } else {
+          setError("Failed to fetch transactions.");
+          toast.error("Failed to fetch transactions.", {
+            position: "top-right",
+            autoClose: 5000,
+          });
         }
-        
-      };
+      } catch (err: any) {
+        setError(err.message);
+        toast.error("Failed to fetch transactions.", {
+          position: "top-right",
+          autoClose: 5000,
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      getUserTransactions();
-    }, [publicKey]);
-
-
-
-  if (!publicKey) {
-    return <div>Please connect your wallet to view transactions.</div>;
-  }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+    getUserTransactions();
+  }, [publicKey, dispatch]);
   return (
     <>
       <div className="flex md:max-w-[406px] lg:w-[406px] flex-col items-start gap-4 h-full mxs:w-full">
