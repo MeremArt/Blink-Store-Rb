@@ -23,9 +23,7 @@ const ConnectAccount: React.FC = () => {
   const [isLoading , setIsLoading] = useState(false);
   const[isDisabled , setIsDisabled] =useState(true);
   const [isTwitterSuccess , setIsTwitterSuccess] = useState(false);
-  const[isProceed, setIsProceed] =useState(false)
-
-  const [responseObject , setResponseObject] = useState({})
+  const[isProceed, setIsProceed] =useState(false);
   const router = useRouter();
   const { connected, publicKey } = useWallet();
 
@@ -43,9 +41,11 @@ const ConnectAccount: React.FC = () => {
           );
 
           if (response) {
-            console.log(response,'kets see ')
-            const {success, message} = response.data; 
-            setIsTwitterSuccess(success)
+            console.log(response);
+            const {success, message,data} = response.data; 
+            const {_id} = data;
+            setIsTwitterSuccess(success);
+            localStorage.setItem("id", JSON.stringify(_id));
             toast.success(message, {
               position: "top-right",
               autoClose: 5000,
@@ -87,10 +87,11 @@ const ConnectAccount: React.FC = () => {
   const proceedToNext =()=>{
     setIsProceed(true)
     setTimeout(()=>{
-      router.push('/products/create-products')
+      router.push('/overview')
     },2000)
     setIsProceed(false)
   }
+
   return (
     <div className="flex flex-col items-center gap-12 flex-[1_0_0] self-stretch max-w-[42rem] h-full">
       <div className="flex flex-col items-end gap-1 self-stretch">

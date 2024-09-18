@@ -44,13 +44,26 @@ function Page() {
   const { publicKey } = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [profileObject , setProfileObject] = useState({});
 
-  // const transactionData = useSelector(
-  //   (state: any) => state.transaction.transaction
-  // );
+  const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null"); 
+  
   const isTransactionSuccessful = useSelector(
     (state: any) => state.transaction.success
   );
+
+
+
+  useEffect(()=>{
+    const getTwitterProfile = async ()=>{
+      const response = await axios.get(`https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`);
+        const{success, message, data} = response.data;
+        setProfileObject(data)
+    };
+
+    getTwitterProfile();
+  },[])
+
 
   useEffect(() => {
     const getUserTransactions = async () => {
@@ -65,7 +78,7 @@ function Page() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://ribh-store.vercel.app/api/v1/transaction?publicKey=${publicKey.toString()}&numTx=2`
+          `https://ribh-store.vercel.app/api/v1/transaction?publicKey=${publicKey.toString()}&numTx=6`
         );
         const { data, success, message } = response.data;
 
@@ -96,6 +109,7 @@ function Page() {
 
     getUserTransactions();
   }, [publicKey, dispatch]);
+  
   return (
     <>
       <div className="flex md:max-w-[406px] lg:w-[406px] flex-col items-start gap-4 h-full mxs:w-full">
@@ -113,10 +127,10 @@ function Page() {
               <Image className="absolute" src={profile} alt="profile" fill />
             </div>
             <div className=" relative flex flex-col justify-center items-center gap-2 self-stretch">
-              <Typography>James Dancer</Typography>
+              {/* <Typography>{profileObject?.name}</Typography> */}
               <div className="flex p-2 px-3 items-center gap-2 rounded-[24px] bg-[#000] ">
                 <Typography customClassName="text-white font-inter text-sm font-medium leading-normal">
-                  @james_dancer
+                  {/* @{profileObject.userN} */}
                 </Typography>
               </div>
             </div>
@@ -187,9 +201,9 @@ function Page() {
         </div>
         {/* /*-----fourth div-----/ */}
         <div
-          className="relative w-full h-[360px] p-8 flex flex-col justify-between items-center bg-cover bg-center rounded-[8px]"
-          style={{ backgroundImage: `url(${container})` }}
-        >
+            className="relative w-full h-[360px] p-8 flex flex-col justify-between items-center bg-cover bg-center rounded-[8px]"
+            style={{ backgroundImage: `url(${container.src})` }}
+              >
           {/* Shopping Image */}
           <div className="relative  mxs:left-0">
             <Image src={shopping} alt="shopping" width={176} height={176} />
@@ -200,6 +214,7 @@ function Page() {
             <Button
               label="Create Product"
               leftIcon={<BluePlus />}
+              onClick={()=>router.push('/products/create-products')}
               fit
               customClassName="flex h-[56px] p-[16px_24px] justify-center items-center gap-[8px] bg-white rounded-[32px] text-[#7839EE]"
             />
