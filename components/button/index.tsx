@@ -88,7 +88,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       {loading ? (
         <CircularLoader
           customClassName={cn(
-            "absolute flex items-center justify-center",
+            "relative flex items-center justify-center",
             rest.disabled && "opacity-50 !text-primary-main/50"
           )}
         />
