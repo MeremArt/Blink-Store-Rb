@@ -24,11 +24,11 @@ import {
   updateTransaction,
   updateTransactionState,
 } from "@/store/redux-slices/transaction-slice";
-import {
-  getAssociatedTokenAddress,
-  getAccount,
-  createAssociatedTokenAccount,
-} from "@solana/spl-token";
+// import {
+//   getAssociatedTokenAddress,
+//   getAccount,
+//   createAssociatedTokenAccount,
+// } from "@solana/spl-token";
 import { formatDate } from "./dummydata";
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
