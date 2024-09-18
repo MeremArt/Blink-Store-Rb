@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css"; 
 import { useRouter } from "next/navigation";
+import Closed from "@/assets/svg-comps/closed";
 type successProps={
     onClick : ()=> void;
     value : boolean;
@@ -38,10 +39,19 @@ const router = useRouter();
     }
   };
 
+  const shareToTwitter =() => {
+    const url = `https://twitter.com/intent/tweet?url=${blink}`;
+    window.open(url, "_blank");
+    router.push('/products/create-products');
+  }
+
   return (
-    <div className="backdrop" onClick={onClick}>
-      <div className="flex w-[616px] mxs:w-[358px] mxxxs:w-[300px] h-[400px] mxxxs:h-[420px] p-[40px_24px] flex-col items-center gap-[32px] flex-shrink-0 rounded-[8px] bg-white">
-        <div className="flex w-[282px] flex-col items-center gap-[16px]">
+    <div className="backdrop">
+      <div className="relative flex w-[616px] mxs:w-[358px] mxxxs:w-[300px] h-[400px] mxxxs:h-[420px] p-[40px_24px] flex-col items-center gap-[32px] flex-shrink-0 rounded-[8px] bg-white">
+         <div className="absolute cursor-pointer top-0 right-0" onClick={onClick}>
+          <Closed/>
+         </div>
+        <div className="flex w-[282px]  flex-col items-center gap-[16px]">
           <div className="relative">
             <Image
               className=""
@@ -72,6 +82,7 @@ const router = useRouter();
             label="Share Product"
             leftIcon={<Twitter />}
             customClassName="flex h-[56px] p-[16px_24px] mxs:p-[1rem] justify-center items-center mxs:text-[0.875rem] gap-[8px] bg-[#000] rounded-[32px] text-white"
+            onClick={shareToTwitter}
           />
         </div>
       </div>

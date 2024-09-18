@@ -9,10 +9,12 @@ import avatar from '@/assets/images/Avatar.svg'
 import { useRouter } from 'next/navigation';
 export default function SecondNavBar() {
     const router = useRouter();
-
+    const toHome=()=>{
+        router.push('/verify-email/verify')
+    }
   return (
     <div className='flex h-[88px] px-[96px] mxs:p-[1rem] w-full py-4 justify-between items-center'>
-        <div>
+        <div onClick={toHome}>
                 <Image src={logo} alt='logo' width={200} height={43.373}/>
             </div>
         <div className='flex items-center gap-[32px]'>
