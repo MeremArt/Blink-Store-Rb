@@ -17,9 +17,7 @@ import axios from "axios";
 import CorrectCircle from "@/assets/svg-comps/correct-circle";
 
 const ConnectAccount: React.FC = () => {
-  const getuserEmail = JSON.parse(localStorage.getItem('email') || 'null');
-
-  console.log(getuserEmail);
+  
   const [isLoading , setIsLoading] = useState(false);
   const[isDisabled , setIsDisabled] =useState(true);
   const [isTwitterSuccess , setIsTwitterSuccess] = useState(false);
@@ -76,9 +74,10 @@ const ConnectAccount: React.FC = () => {
     }
 
   },[isTwitterSuccess, publicKey,connected])
-
+  
   const verifyTwitter = async()=>{
     setIsLoading(true);
+    const getuserEmail = JSON.parse(localStorage.getItem('email') || 'null');
     const url = `https://ribh-store.vercel.app/api/v1/auth/twitter?email=${getuserEmail}`;
     window.open(url, "_self");
 

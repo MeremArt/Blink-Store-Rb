@@ -24,11 +24,11 @@ import {
   updateTransaction,
   updateTransactionState,
 } from "@/store/redux-slices/transaction-slice";
-import {
-  getAssociatedTokenAddress,
-  getAccount,
-  createAssociatedTokenAccount,
-} from "@solana/spl-token";
+// import {
+//   getAssociatedTokenAddress,
+//   getAccount,
+//   createAssociatedTokenAccount,
+// } from "@solana/spl-token";
 import { formatDate } from "./dummydata";
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -53,91 +53,92 @@ function Page() {
   const [profileObject , setProfileObject] = useState({});
   const [parseHistoryUrl, setParseHistoryUrl] = useState<string>("");
   const [bonkBalance, setBonkBalance] = useState<number>(0);
-  const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null");
+  
   const isTransactionSuccessful = useSelector(
     (state: any) => state.transaction.success
   );
-  // Helius RPC URL and API key
-  const HELIUS_RPC_URL =
-    "https://rpc.helius.xyz?api-key=4facc46f-a686-4906-8283-45f08abb210f";
-  const connection = new Connection(HELIUS_RPC_URL);
-  const USDC_MINT_ADDRESS = new PublicKey(
-    "EPjFWdd5AufqSSqeM2qZQDh1z1XkA9tcA1gSgKuG9x5w"
-  );
+  
+  // const HELIUS_RPC_URL =
+  //   "https://rpc.helius.xyz?api-key=4facc46f-a686-4906-8283-45f08abb210f";
+  // const connection = new Connection(HELIUS_RPC_URL);
+  // const USDC_MINT_ADDRESS = new PublicKey(
+  //   "EPjFWdd5AufqSSqeM2qZQDh1z1XkA9tcA1gSgKuG9x5w"
+  // );
   // Fetch Wallet Transactions URL
-  useEffect(() => {
-    if (!publicKey) {
-      console.log("No publicKey found.");
-      return;
-    }
-    setParseHistoryUrl(
-      `https://api.helius.xyz/v0/addresses/${publicKey}/transactions?api-key=4facc46f-a686-4906-8283-45f08abb210f`
-    );
-  }, [publicKey]);
+  // useEffect(() => {
+  //   if (!publicKey) {
+  //     console.log("No publicKey found.");
+  //     return;
+  //   }
+  //   setParseHistoryUrl(
+  //     `https://api.helius.xyz/v0/addresses/${publicKey}/transactions?api-key=4facc46f-a686-4906-8283-45f08abb210f`
+  //   );
+  // }, [publicKey]);
 
-  useEffect(() => {
-    const fetchBalances = async () => {
-      console.log("Fetching balances...");
-      console.log("PublicKey:", publicKey?.toBase58());
-      console.log("Connection:", connection.rpcEndpoint);
-      if (!connection || !publicKey) return;
-      try {
-        // Get associated token account for BONK
-        const bonkTokenAccount = await getAssociatedTokenAddress(
-          USDC_MINT_ADDRESS,
-          publicKey
-        );
-        console.log("BONK Token Account:", bonkTokenAccount.toBase58());
+  // useEffect(() => {
+    //   const fetchBalances = async () => {
+  //     console.log("Fetching balances...");
+  //     console.log("PublicKey:", publicKey?.toBase58());
+  //     console.log("Connection:", connection.rpcEndpoint);
+  //     if (!connection || !publicKey) return;
+  //     try {
+  //       // Get associated token account for BONK
+  //       const bonkTokenAccount = await getAssociatedTokenAddress(
+    //         USDC_MINT_ADDRESS,
+  //         publicKey
+  //       );
+  //       console.log("BONK Token Account:", bonkTokenAccount.toBase58());
 
-        // Fetch BONK token balance
-        const bonkAccountInfo = await connection.getTokenAccountBalance(
-          bonkTokenAccount
-        );
-        console.log("BONK Account Info:", bonkAccountInfo);
+  //       // Fetch BONK token balance
+  //       const bonkAccountInfo = await connection.getTokenAccountBalance(
+  //         bonkTokenAccount
+  //       );
+  //       console.log("BONK Account Info:", bonkAccountInfo);
 
-        const bonkBalance = parseFloat(
-          (bonkAccountInfo.value.amount / 10 ** 5).toFixed(5)
-        ); // Amount is in the smallest unit
-        setBonkBalance(bonkBalance);
-      } catch (error) {
-        console.error("Failed to fetch BONK balance:", error);
+  //       const bonkBalance = parseFloat(
+  //         (bonkAccountInfo.value.amount / 10 ** 5).toFixed(5)
+  //       ); // Amount is in the smallest unit
+  //       setBonkBalance(bonkBalance);
+  //     } catch (error) {
+  //       console.error("Failed to fetch BONK balance:", error);
+  
+  //       // Attempt to create the associated token account if it doesn't exist
+  //       try {
+  //         const bonkTokenAccount = await createAssociatedTokenAccount(
+  //           connection,
+  //           publicKey,
+  //           USDC_MINT_ADDRESS,
+  //           publicKey
+  //         );
+  
+  //         console.log(
+  //           "Created BONK Token Account:",
+  //           bonkTokenAccount.toBase58()
+  //         );
 
-        // Attempt to create the associated token account if it doesn't exist
-        try {
-          const bonkTokenAccount = await createAssociatedTokenAccount(
-            connection,
-            publicKey,
-            USDC_MINT_ADDRESS,
-            publicKey
-          );
+  //         // Fetch BONK token balance again
+  //         const bonkAccountInfo = await connection.getTokenAccountBalance(
+  //           bonkTokenAccount
+  //         );
+  //         console.log("BONK Account Info:", bonkAccountInfo);
 
-          console.log(
-            "Created BONK Token Account:",
-            bonkTokenAccount.toBase58()
-          );
-
-          // Fetch BONK token balance again
-          const bonkAccountInfo = await connection.getTokenAccountBalance(
-            bonkTokenAccount
-          );
-          console.log("BONK Account Info:", bonkAccountInfo);
-
-          const bonkBalance = bonkAccountInfo.value.amount; // Amount is in the smallest unit
-          setBonkBalance(bonkBalance);
-        } catch (creationError) {
-          console.error("Failed to create BONK token account:", creationError);
-          setBonkBalance(0);
-        }
-      }
-    };
-
-    fetchBalances();
-  }, [connection, publicKey]);
-
+  //         const bonkBalance = bonkAccountInfo.value.amount; // Amount is in the smallest unit
+  //         setBonkBalance(bonkBalance);
+  //       } catch (creationError) {
+  //         console.error("Failed to create BONK token account:", creationError);
+  //         setBonkBalance(0);
+  //       }
+  //     }
+  //   };
+  
+  //   fetchBalances();
+  // }, [connection, publicKey]);
+  
 
 
   useEffect(()=>{
     const getTwitterProfile = async ()=>{
+      const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null");
       const response = await axios.get(`https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`);
         const{success, message, data} = response.data;
         setProfileObject(data)
