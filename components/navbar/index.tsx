@@ -40,10 +40,10 @@ export default function NavBar() {
         </div>
       </div>
       <div className="mmd:hidden">
-        <Button
+        {/* <Button
           label="Join the Waitlist"
           customClassName="flex h-[56px] px-6 py-4 justify-center items-center gap-1 bg-[linear-gradient(90deg,#7839EE_0%,#A27DFF_50.8%,#4E55FF_100%)] text-white rounded-[8px]"
-        />
+        /> */}
       </div>
       <div className="lg:hidden">
         <Hamburger />
