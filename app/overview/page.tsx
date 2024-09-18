@@ -53,7 +53,7 @@ function Page() {
   const [profileObject , setProfileObject] = useState({});
   const [parseHistoryUrl, setParseHistoryUrl] = useState<string>("");
   const [bonkBalance, setBonkBalance] = useState<number>(0);
-  const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null");
+  
   const isTransactionSuccessful = useSelector(
     (state: any) => state.transaction.success
   );
@@ -76,7 +76,7 @@ function Page() {
   // }, [publicKey]);
 
   // useEffect(() => {
-  //   const fetchBalances = async () => {
+    //   const fetchBalances = async () => {
   //     console.log("Fetching balances...");
   //     console.log("PublicKey:", publicKey?.toBase58());
   //     console.log("Connection:", connection.rpcEndpoint);
@@ -84,7 +84,7 @@ function Page() {
   //     try {
   //       // Get associated token account for BONK
   //       const bonkTokenAccount = await getAssociatedTokenAddress(
-  //         USDC_MINT_ADDRESS,
+    //         USDC_MINT_ADDRESS,
   //         publicKey
   //       );
   //       console.log("BONK Token Account:", bonkTokenAccount.toBase58());
@@ -101,7 +101,7 @@ function Page() {
   //       setBonkBalance(bonkBalance);
   //     } catch (error) {
   //       console.error("Failed to fetch BONK balance:", error);
-
+  
   //       // Attempt to create the associated token account if it doesn't exist
   //       try {
   //         const bonkTokenAccount = await createAssociatedTokenAccount(
@@ -110,7 +110,7 @@ function Page() {
   //           USDC_MINT_ADDRESS,
   //           publicKey
   //         );
-
+  
   //         console.log(
   //           "Created BONK Token Account:",
   //           bonkTokenAccount.toBase58()
@@ -130,14 +130,15 @@ function Page() {
   //       }
   //     }
   //   };
-
+  
   //   fetchBalances();
   // }, [connection, publicKey]);
-
+  
 
 
   useEffect(()=>{
     const getTwitterProfile = async ()=>{
+      const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null");
       const response = await axios.get(`https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`);
         const{success, message, data} = response.data;
         setProfileObject(data)
