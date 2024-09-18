@@ -24,32 +24,36 @@ function Page() {
           setIsLoading(false); 
           return;
       }
-  
+      console.log(userEmail,'userema')
       try {
-        const response = await axios.post(
-          'https://ribh-store.vercel.app/api/v1/auth/whitelist', 
-          {
-              emails: [userEmail], 
-          },
-          {
-              headers: {
-                  "Content-Type": "application/json",
-              },
-          }
+        const response = await axios.get(
+         `https://ribh-store.vercel.app/api/v1/user?email=${userEmail}`
       );
   
-          const { email } = response.data.data[0];
-          localStorage.setItem('email', JSON.stringify(email));
-          toast.success('Email verified',{
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          router.push('/verify-email/connect-accounts');
+      
+    
+      
+     
+      const data = response?.data?.data;
+      console.log(data, "response");
+  
+      if (data) {
+        console.log('yes')
+        const { email } = data; 
+        localStorage.setItem("email", JSON.stringify(email));
+        toast.success("Email verified", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        router.push("/verify-email/connect-accounts");
+      } else {
+        throw new Error("No data found for this email");
+      }
       } catch (err) {
           console.log(err)
           toast.error('This email does not exist in the whitelist', {
