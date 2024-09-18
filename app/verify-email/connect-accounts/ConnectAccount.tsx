@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
+import CorrectCircle from "@/assets/svg-comps/correct-circle";
 
 const ConnectAccount: React.FC = () => {
   const getuserEmail = JSON.parse(localStorage.getItem('email') || 'null');
@@ -21,40 +22,68 @@ const ConnectAccount: React.FC = () => {
   console.log(getuserEmail);
   const [isLoading , setIsLoading] = useState(false);
   const[isDisabled , setIsDisabled] =useState(true);
+  const [isTwitterSuccess , setIsTwitterSuccess] = useState(false);
   const[isProceed, setIsProceed] =useState(false)
 
   const [responseObject , setResponseObject] = useState({})
   const router = useRouter();
   const { connected, publicKey } = useWallet();
 
-useEffect(()=>{
-const letsProceed =()=>{
-  try{
-    if(connected && publicKey && responseObject){
-        setIsDisabled(false)
-      toast.success("Welcome back!");
+  useEffect(() => {
 
+    const connectTwitter = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const twitterUserId = params.get('twitterId');
+      const getuserEmail = JSON.parse(localStorage.getItem('email')|| "null"); 
+      if (twitterUserId && getuserEmail) {
+        try {
+          console.log(getuserEmail, twitterUserId)
+          const response = await axios.patch(
+            `https://ribh-store.vercel.app/api/v1/auth/connect-twitter?twitterId=${twitterUserId}&email=${getuserEmail}`
+          );
+
+          if (response) {
+            console.log(response,'kets see ')
+            const {success, message} = response.data; 
+            setIsTwitterSuccess(success)
+            toast.success(message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            router.push("/verify-email/connect-accounts");
+          }
+        } catch (error) {
+
+          console.error("Error connecting Twitter account:", error);
+        }
+      }
+    };
+  
+
+    connectTwitter();
+    
+  }, []); 
+  
+
+  useEffect(()=>{
+    if(isTwitterSuccess && publicKey && connected){
+      setIsDisabled(false)
     }
-  }catch (error) {
-    console.error("Error checking user existence:", error);
-    toast.error("An error occurred. Please try again.");
-  }
-};
 
-letsProceed();
-},[connected,publicKey,responseObject ]);
+  },[isTwitterSuccess, publicKey,connected])
 
   const verifyTwitter = async()=>{
     setIsLoading(true);
-    try{
-      const response = await axios.get(`https://ribh-store.vercel.app/api/v1/auth/twitter?email=${getuserEmail}`);
-      console.log(response,'response')
-      setIsLoading(false)
-    }catch(err){
-      console.log(err,'this is the error')
-      setIsLoading(false)
-    }
+    const url = `https://ribh-store.vercel.app/api/v1/auth/twitter?email=${getuserEmail}`;
+    window.open(url, "_self");
+
   }
+
   const proceedToNext =()=>{
     setIsProceed(true)
     setTimeout(()=>{
@@ -93,9 +122,10 @@ letsProceed();
           <div className="flex flex-col items-start self-stretch">
             <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch border-b">
               <Button
-                label="Connect Account"
+                label={isTwitterSuccess?'Account Connected':"Connect Account"}
                 leftIcon={<Twitter />}
                 fit
+                rightIcon={isTwitterSuccess &&  <CorrectCircle/> }
                 type="button"
                 customClassName="flex w-[256px] h-[56px] px-8 py-4 justify-center mxs:text-[0.875rem] items-center gap-4 bg-[#000] rounded-[32px] text-white"
                 onClick={verifyTwitter}
