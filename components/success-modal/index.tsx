@@ -42,7 +42,7 @@ const router = useRouter();
   const shareToTwitter =() => {
     const url = `https://twitter.com/intent/tweet?url=${blink}`;
     window.open(url, "_blank");
-    router.push('/products/create-products');
+   
   }
 
   return (
