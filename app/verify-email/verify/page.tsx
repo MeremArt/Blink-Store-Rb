@@ -1,20 +1,77 @@
 'use client'
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import logo from "@/assets/images/Logo.svg";
 import { Typography } from "@/components/typography";
 import { Input } from "@/components/inputs";
 import { Button } from "@/components/button";
 import ArrowLeft from "@/assets/svg-comps/arrow-left";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Page() {
     const router = useRouter();
+    const [isloading , setIsLoading] = useState<boolean>(false);
+    const [userEmail , setUserEmail] = useState<string>('')
+
+    const verifyEmail = async (e: any) => {
+      e.preventDefault();
+      setIsLoading(true); 
+  
+      if (!userEmail) {
+          toast.error('Email cannot be empty');
+          setIsLoading(false); 
+          return;
+      }
+  
+      try {
+        const response = await axios.post(
+          'https://ribh-store.vercel.app/api/v1/auth/whitelist', 
+          {
+              emails: [userEmail], 
+          },
+          {
+              headers: {
+                  "Content-Type": "application/json",
+              },
+          }
+      );
+  
+          const { email } = response.data.data[0];
+          localStorage.setItem('email', JSON.stringify(email));
+          toast.success('Email verified',{
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          router.push('/verify-email/connect-accounts');
+      } catch (err) {
+          console.log(err)
+          toast.error('This email does not exist in the whitelist', {
+            position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      } finally {
+          setIsLoading(false); 
+      }
+  };
+  
+
   return (
 
     <div className="flex flex-col items-center gap-12 flex-[1_0_0] self-stretch max-w-[42rem] h-full">
       <div className="flex flex-col items-end gap-1 self-stretch ">
-        <Button label='Back to Home' leftIcon={<ArrowLeft/>} fit size="small" customClassName=" text-[#7839EE] font-Inter text-base mxs:text-[0.875rem] font-semi-bold leading-normal rounded-[2rem] border border-[#7839EE] mmd:bg-[#7839EE] mmd:text-white "/>
+        {/* <Button label='Back to Home' leftIcon={<ArrowLeft/>} fit size="small" customClassName=" text-[#7839EE] font-Inter text-base mxs:text-[0.875rem] font-semi-bold leading-normal rounded-[2rem] border border-[#7839EE] mmd:bg-[#7839EE] mmd:text-white "/> */}
         </div>
 
       <div className="flex flex-col items-start gap-14 mxs:gap-10  p-[72px_54px_104px_54px] mxs:p-[32px_24px_12px_24px] self-stretch rounded-lg bg-white shadow-[0px_0px_32px_0px_rgba(0,0,0,0.08)]">
@@ -31,14 +88,14 @@ function Page() {
             </Typography>
           </div>
         </div>
-        <div className="flex flex-col items-start gap-16 mxs:gap-10 self-stretch">
+        <form className="flex flex-col items-start gap-16 mxs:gap-10 self-stretch" onSubmit={verifyEmail}>
             <div className="w-full ">
-                <Input name="Email address" label='Email address' placeholder="new.user@mail.com" passwordWay={false}/>
+                <Input name="Email address" label='Email address' placeholder="new.user@mail.com" passwordWay={false} onChange={(e:any)=>setUserEmail(e.target.value)}/>
             </div>
                 <div className="w-full">
-                    <Button label='Verify Email' size="small" customClassName="bg-[#7839EE] rounded-[2rem] mxs:text-[0.875rem] text-white" onClick={()=>router.push('/verify-email/connect-accounts') }  />
+                    <Button label='Verify Email' type="submit" loading={isloading} size="small" customClassName="bg-[#7839EE] rounded-[2rem] mxs:text-[0.875rem] text-white"/>
                 </div>
-            </div>
+            </form>
       </div>
 
       <div className="flex items-end gap-4 flex-[1_0_0] self-stretch">

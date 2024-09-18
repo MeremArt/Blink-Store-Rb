@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import backgroundImage from '@/assets/images/ribhStoreContainer.svg';
 import phonesize from '@/assets/images/phonesize.svg'
+import "react-toastify/dist/ReactToastify.css";
 
 interface LayoutProps {
   children: React.ReactNode;

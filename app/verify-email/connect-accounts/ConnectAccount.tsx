@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import logo from "@/assets/images/Logo.svg";
 import { Typography } from "@/components/typography";
@@ -13,47 +13,55 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
+import axios from "axios";
 
 const ConnectAccount: React.FC = () => {
+  const getuserEmail = JSON.parse(localStorage.getItem('email') || 'null');
+
+  console.log(getuserEmail);
+  const [isLoading , setIsLoading] = useState(false);
+  const[isDisabled , setIsDisabled] =useState(true);
+  const[isProceed, setIsProceed] =useState(false)
+
+  const [responseObject , setResponseObject] = useState({})
   const router = useRouter();
   const { connected, publicKey } = useWallet();
 
-  useEffect(() => {
-    const checkIfUserExists = async () => {
-      try {
-        if (connected && publicKey) {
-          toast.success("Welcome back!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          localStorage.setItem("publicKey", publicKey.toString());
+useEffect(()=>{
+const letsProceed =()=>{
+  try{
+    if(connected && publicKey && responseObject){
+        setIsDisabled(false)
+      toast.success("Welcome back!");
 
-          setTimeout(() => {
-            router.push(`/products/create-products`);
-          }, 3000);
-        }
-      } catch (error) {
-        console.error("Error checking user existence:", error);
-        toast.error("An error occurred. Please try again.", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    };
+    }
+  }catch (error) {
+    console.error("Error checking user existence:", error);
+    toast.error("An error occurred. Please try again.");
+  }
+};
 
-    checkIfUserExists();
-  }, [connected, publicKey, router]);
+letsProceed();
+},[connected,publicKey,responseObject ]);
 
+  const verifyTwitter = async()=>{
+    setIsLoading(true);
+    try{
+      const response = await axios.get(`https://ribh-store.vercel.app/api/v1/auth/twitter?email=${getuserEmail}`);
+      console.log(response,'response')
+      setIsLoading(false)
+    }catch(err){
+      console.log(err,'this is the error')
+      setIsLoading(false)
+    }
+  }
+  const proceedToNext =()=>{
+    setIsProceed(true)
+    setTimeout(()=>{
+      router.push('/products/create-products')
+    },2000)
+    setIsProceed(false)
+  }
   return (
     <div className="flex flex-col items-center gap-12 flex-[1_0_0] self-stretch max-w-[42rem] h-full">
       <div className="flex flex-col items-end gap-1 self-stretch">
@@ -63,6 +71,7 @@ const ConnectAccount: React.FC = () => {
           fit
           size="small"
           customClassName="text-[#7839EE] mmd:text-white mxs:text-white mxs:bg-[#7839EE] mmd:bg-[#7839EE] font-Inter text-base mxs:text-[0.875rem] font-semibold leading-normal rounded-[2rem] border border-[#7839EE]"
+          onClick={()=> router.push('/verify-email/verify')}
         />
       </div>
 
@@ -87,7 +96,10 @@ const ConnectAccount: React.FC = () => {
                 label="Connect Account"
                 leftIcon={<Twitter />}
                 fit
+                type="button"
                 customClassName="flex w-[256px] h-[56px] px-8 py-4 justify-center mxs:text-[0.875rem] items-center gap-4 bg-[#000] rounded-[32px] text-white"
+                onClick={verifyTwitter}
+                loading={isLoading}
               />
             </div>
             <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch">
@@ -99,6 +111,9 @@ const ConnectAccount: React.FC = () => {
           <Button
             label="proceed"
             customClassName="flex h-[56px] px-6 py-4 justify-center items-center mxs:text-[0.875rem] gap-1 self-stretch rounded-[32px] bg-[#BFBFBF] text-white"
+            disabled={isDisabled}
+            onClick={proceedToNext}
+            loading={isProceed}
           />
         </div>
       </div>
