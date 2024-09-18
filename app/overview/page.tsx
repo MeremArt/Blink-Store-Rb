@@ -14,7 +14,7 @@ import { Button } from "@/components/button";
 import shopping from "@/assets/images/bag-dynamic-color.svg";
 import Plus from "@/assets/svg-comps/plus";
 import BluePlus from "@/assets/svg-comps/blue-pick";
-import { data, formatTime } from "./dummydata";
+import { formatTime } from "./dummydata";
 import TableComp from "@/components/table-comp";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
