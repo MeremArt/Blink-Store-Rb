@@ -14,7 +14,7 @@ import { Button } from "@/components/button";
 import shopping from "@/assets/images/bag-dynamic-color.svg";
 import Plus from "@/assets/svg-comps/plus";
 import BluePlus from "@/assets/svg-comps/blue-pick";
-import { data, formatTime } from "./dummydata";
+import { formatTime } from "./dummydata";
 import TableComp from "@/components/table-comp";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,7 @@ import { formatDate } from "./dummydata";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import UpDown from "@/assets/svg-comps/up-and-down";
+import { useRouter } from "next/navigation";
 interface Transaction {
   signature: string;
   date: string;
@@ -38,7 +39,7 @@ function Page() {
     (state: { transaction: { transaction: Transaction[] } }) =>
       state.transaction.transaction
   );
-
+  const router = useRouter();
   const dispatch = useDispatch();
   const { publicKey } = useWallet();
   const [loading, setLoading] = useState(false);
@@ -101,7 +102,7 @@ function Page() {
         <div className=" relative flex w-full h-fit flex-col p-[16px_16px_16px_16px] items-start gap-1 self-stretch rounded-[16px] border border-[#7839EE] bg-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)]">
           <div className="mx-auto relative flex w-[374px] mxs:w-[350px] mxxs:w-[310px] h-[200px] p-4 justify-end items-start gap-1 flex-shrink-0">
             <Image
-              className="absolute"
+              className="absolute "
               src={coverImage}
               alt={"coverImage"}
               fill

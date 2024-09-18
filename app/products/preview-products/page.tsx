@@ -20,6 +20,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { addEvent } from "@/store/redux-slices/event-slices";
 import newPlaceholder from "@/assets/images/gallery.png";
+import { formatString } from "@/app/overview/dummydata";
+
 function Page() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [merchantId, setMerchantId] = useState<string | null>("");
@@ -44,8 +46,14 @@ function Page() {
     return name && description && amount > 0 && image;
   };
 
-  const getState = checkState();
 
+
+
+
+
+
+  const getState = checkState();
+  console.log( amount, 'see')
   const submitEventForm = async () => {
     setIsLoading(true);
     // if (!getState) {
@@ -54,13 +62,13 @@ function Page() {
     //   toast.error('Nothing to send')
     //   return
     // }
-
+   const newAmount = formatString(amount)
     const formObject = {
       merchantId: merchantId,
       name: name,
       image: image,
       description: description,
-      price: amount,
+      price: newAmount,
     };
 
     try {
