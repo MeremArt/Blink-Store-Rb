@@ -102,6 +102,7 @@ function Page() {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    router.push('/products/create-products');
   };
 
   return (
