@@ -32,8 +32,8 @@ export default function AppWalletProvider({
       new SolflareWalletAdapter(),
       new BackpackWalletAdapter(),
       new TipLinkWalletAdapter({
-        title: "Name of Dapp", // Replace with your Dapp's name
-        clientId: "694bf97c-d2ac-4dfc-a786-a001812658df", // Replace with your actual client ID
+        title: "Ribh Store", // Replace with your Dapp's name
+        clientId: "65783e67-8b6d-4da9-b2ba-40139abc7557", // Replace with your actual client ID
         theme: "dark", // Choose between "dark", "light", or "system"
       }),
     ],
