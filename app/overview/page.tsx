@@ -24,14 +24,17 @@ import {
   updateTransaction,
   updateTransactionState,
 } from "@/store/redux-slices/transaction-slice";
-// import {
-//   getAssociatedTokenAddress,
-//   getAccount,
-//   createAssociatedTokenAccount,
-// } from "@solana/spl-token";
+import { GetProgramAccountsFilter } from "@solana/web3.js";
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
+
 import { formatDate } from "./dummydata";
-import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
-import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  clusterApiUrl,
+  Connection,
+  PublicKey,
+  LAMPORTS_PER_SOL,
+} from "@solana/web3.js";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 
 import UpDown from "@/assets/svg-comps/up-and-down";
 import { useRouter } from "next/navigation";
@@ -50,103 +53,103 @@ function Page() {
   const { publicKey, signTransaction } = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [profileObject , setProfileObject] = useState({});
+  const [profileObject, setProfileObject] = useState({});
   const [parseHistoryUrl, setParseHistoryUrl] = useState<string>("");
   const [bonkBalance, setBonkBalance] = useState<number>(0);
-  
+  const [balance, setBalance] = useState<number>(0);
+  const [usdcBalance, setUsdcBalance] = useState("0.00");
+  const walletToQuery = publicKey ? publicKey.toBase58() : "";
+  const { connection } = useConnection();
   const isTransactionSuccessful = useSelector(
     (state: any) => state.transaction.success
   );
-  
-  // const HELIUS_RPC_URL =
-  //   "https://rpc.helius.xyz?api-key=4facc46f-a686-4906-8283-45f08abb210f";
-  // const connection = new Connection(HELIUS_RPC_URL);
-  // const USDC_MINT_ADDRESS = new PublicKey(
-  //   "EPjFWdd5AufqSSqeM2qZQDh1z1XkA9tcA1gSgKuG9x5w"
-  // );
-  // Fetch Wallet Transactions URL
-  // useEffect(() => {
-  //   if (!publicKey) {
-  //     console.log("No publicKey found.");
-  //     return;
-  //   }
-  //   setParseHistoryUrl(
-  //     `https://api.helius.xyz/v0/addresses/${publicKey}/transactions?api-key=4facc46f-a686-4906-8283-45f08abb210f`
-  //   );
-  // }, [publicKey]);
 
-  // useEffect(() => {
-    //   const fetchBalances = async () => {
-  //     console.log("Fetching balances...");
-  //     console.log("PublicKey:", publicKey?.toBase58());
-  //     console.log("Connection:", connection.rpcEndpoint);
-  //     if (!connection || !publicKey) return;
-  //     try {
-  //       // Get associated token account for BONK
-  //       const bonkTokenAccount = await getAssociatedTokenAddress(
-    //         USDC_MINT_ADDRESS,
-  //         publicKey
-  //       );
-  //       console.log("BONK Token Account:", bonkTokenAccount.toBase58());
+  // USDC Devnet Mint Address
+  const USDC_DEVNET_MINT = "ADk8YZmNLf1qBr8V46UD1NVtxdNSr6z4mPt2Dx7sBksW";
 
-  //       // Fetch BONK token balance
-  //       const bonkAccountInfo = await connection.getTokenAccountBalance(
-  //         bonkTokenAccount
-  //       );
-  //       console.log("BONK Account Info:", bonkAccountInfo);
+  useEffect(() => {
+    const rpcEndpoint =
+      "https://dawn-weathered-tab.solana-devnet.quiknode.pro/4dc4791564c9683ee866a71ec1eee26d7d181f9e/";
+    const solanaConnection = new Connection(rpcEndpoint);
 
-  //       const bonkBalance = parseFloat(
-  //         (bonkAccountInfo.value.amount / 10 ** 5).toFixed(5)
-  //       ); // Amount is in the smallest unit
-  //       setBonkBalance(bonkBalance);
-  //     } catch (error) {
-  //       console.error("Failed to fetch BONK balance:", error);
-  
-  //       // Attempt to create the associated token account if it doesn't exist
-  //       try {
-  //         const bonkTokenAccount = await createAssociatedTokenAccount(
-  //           connection,
-  //           publicKey,
-  //           USDC_MINT_ADDRESS,
-  //           publicKey
-  //         );
-  
-  //         console.log(
-  //           "Created BONK Token Account:",
-  //           bonkTokenAccount.toBase58()
-  //         );
+    if (publicKey) {
+      (async function getBalanceEvery10Seconds() {
+        const newBalance = await connection.getBalance(publicKey);
+        setBalance(newBalance / LAMPORTS_PER_SOL);
+        setTimeout(getBalanceEvery10Seconds, 10000); // Refresh SOL balance every 10 seconds
+      })();
+    }
 
-  //         // Fetch BONK token balance again
-  //         const bonkAccountInfo = await connection.getTokenAccountBalance(
-  //           bonkTokenAccount
-  //         );
-  //         console.log("BONK Account Info:", bonkAccountInfo);
+    // Function to fetch USDC token balance
+    async function getTokenAccounts(
+      wallet: string,
+      solanaConnection: Connection
+    ) {
+      const filters: GetProgramAccountsFilter[] = [
+        {
+          dataSize: 165, // size of token account
+        },
+        {
+          memcmp: {
+            offset: 32, // owner address (wallet public key)
+            bytes: wallet, // base58 encoded wallet public key
+          },
+        },
+        {
+          memcmp: {
+            offset: 0, // mint address location (should be 44, not 0)
+            bytes: USDC_DEVNET_MINT, // USDC mint address for Devnet
+          },
+        },
+      ];
 
-  //         const bonkBalance = bonkAccountInfo.value.amount; // Amount is in the smallest unit
-  //         setBonkBalance(bonkBalance);
-  //       } catch (creationError) {
-  //         console.error("Failed to create BONK token account:", creationError);
-  //         setBonkBalance(0);
-  //       }
-  //     }
-  //   };
-  
-  //   fetchBalances();
-  // }, [connection, publicKey]);
-  
+      const accounts = await solanaConnection.getParsedProgramAccounts(
+        TOKEN_PROGRAM_ID,
+        { filters: filters }
+      );
 
+      console.log(
+        `Found ${accounts.length} token account(s) for wallet ${wallet}.`
+      );
 
-  useEffect(()=>{
-    const getTwitterProfile = async ()=>{
-      const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null");
-      const response = await axios.get(`https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`);
-        const{success, message, data} = response.data;
-        setProfileObject(data)
+      if (accounts.length > 0) {
+        accounts.forEach((account, i) => {
+          const parsedAccountInfo: any = account.account.data;
+          const mintAddress: string =
+            parsedAccountInfo["parsed"]["info"]["mint"];
+          const tokenBalance: number =
+            parsedAccountInfo["parsed"]["info"]["tokenAmount"]["uiAmount"];
+
+          console.log(
+            `Token Account No. ${i + 1}: ${account.pubkey.toString()}`
+          );
+          console.log(`--Token Mint: ${mintAddress}`);
+          console.log(`--Token Balance: ${tokenBalance}`);
+
+          setUsdcBalance(tokenBalance.toFixed(2)); // Format to 2 decimal places
+        });
+      } else {
+        setUsdcBalance("0.00"); // No USDC found
+      }
+    }
+
+    if (walletToQuery) {
+      getTokenAccounts(walletToQuery, solanaConnection);
+    }
+  }, [publicKey, connection, balance]);
+
+  useEffect(() => {
+    const getTwitterProfile = async () => {
+      const getTwitterId = JSON.parse(localStorage.getItem("id") || "null");
+      const response = await axios.get(
+        `https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`
+      );
+      const { success, message, data } = response.data;
+      setProfileObject(data);
     };
 
     getTwitterProfile();
-  },[])
-
+  }, []);
 
   useEffect(() => {
     const getUserTransactions = async () => {
@@ -192,7 +195,7 @@ function Page() {
 
     getUserTransactions();
   }, [publicKey, dispatch]);
-  
+
   return (
     <>
       <div className="flex md:max-w-[406px] lg:w-[406px] flex-col items-start gap-4 h-full mxs:w-full">
@@ -234,7 +237,7 @@ function Page() {
           <div className="flex items-center gap-[7px] self-stretch">
             <DollarIcon />
             <Typography customClassName="text-[#000] font-inter text-[32px] font-bold leading-normal">
-              <p> {bonkBalance}</p>
+              <p>{usdcBalance}</p>
             </Typography>
           </div>
         </div>
@@ -284,9 +287,9 @@ function Page() {
         </div>
         {/* /*-----fourth div-----/ */}
         <div
-            className="relative w-full h-[360px] p-8 flex flex-col justify-between items-center bg-cover bg-center rounded-[8px]"
-            style={{ backgroundImage: `url(${container.src})` }}
-              >
+          className="relative w-full h-[360px] p-8 flex flex-col justify-between items-center bg-cover bg-center rounded-[8px]"
+          style={{ backgroundImage: `url(${container.src})` }}
+        >
           {/* Shopping Image */}
           <div className="relative  mxs:left-0">
             <Image src={shopping} alt="shopping" width={176} height={176} />
@@ -297,7 +300,7 @@ function Page() {
             <Button
               label="Create Product"
               leftIcon={<BluePlus />}
-              onClick={()=>router.push('/products/create-products')}
+              onClick={() => router.push("/products/create-products")}
               fit
               customClassName="flex h-[56px] p-[16px_24px] justify-center items-center gap-[8px] bg-white rounded-[32px] text-[#7839EE]"
             />
