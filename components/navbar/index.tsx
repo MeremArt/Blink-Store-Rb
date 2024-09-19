@@ -7,7 +7,16 @@ import Link from "next/link";
 import logo from "@/assets/images/Logo - Ribh Finance.png";
 import Hamburger from "@/assets/svg-comps/purple-hamburger";
 import smallLogo from "@/assets/images/Logosmall.svg";
-export default function NavBar() {
+
+type NavBarProps = {
+  // openModal: () => void;
+  openSmallNav : ()=> void;
+};
+
+
+export default function NavBar(prop: NavBarProps) {
+
+  const { openSmallNav } = prop;
   return (
     <div className="flex h-[88px]  mmd:px-[16px]  mmd:py-[16px] px-24 py-4 justify-between items-center">
       <div className="flex items-center gap-10">
@@ -45,7 +54,7 @@ export default function NavBar() {
           customClassName="flex h-[56px] px-6 py-4 justify-center items-center gap-1 bg-[linear-gradient(90deg,#7839EE_0%,#A27DFF_50.8%,#4E55FF_100%)] text-white rounded-[8px]"
         /> */}
       </div>
-      <div className="lg:hidden">
+      <div className="lg:hidden" onClick={openSmallNav}>
         <Hamburger />
       </div>
     </div>

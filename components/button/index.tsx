@@ -16,7 +16,7 @@ const button = cva("", {
       large: "py-5 px-12",
       medium: "px-8 py-3.5",
       small: "px-6 py-4",
-      smaller: "py-[10px] px-[32px]",
+      smaller: "py-[16px] px-[16px]",
       moreMedium: "px-12 py-4",
       footer: "py-2 px-10",
       "medium-with-icon": "px-8 py-3.5 pl-5",
@@ -73,7 +73,8 @@ const Button: React.FC<ButtonProps> = (props) => {
         className: cn(
           "flex items-center gap-2 justify-center whitespace-nowrap transition-all duration-300 focus:ring-4 focus:ring-primary-light-200 focus-visible:outline-none disabled:cursor-not-allowed disabled:!border-gray-3 disabled:bg-gray-3",
           customClassName,
-          fit ? "w-fit" : "w-full"
+          fit ? "w-fit" : "w-full",
+          rest.disabled ?"bg-[#BFBFBF] text-white":""
         ),
       })}
       type="button"

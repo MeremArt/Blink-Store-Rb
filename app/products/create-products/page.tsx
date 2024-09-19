@@ -83,7 +83,7 @@ const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         </div>
          <div className=' mx-auto flex flex-col items-start lg:max-w-[826px] w-full mmd:px-[24px]  px-[136px] py-8 gap-8 bg-[#FFF] shadow-[0_0_32px_0_rgba(0,_0,_0,_0.08)]'>
         <div className='w-full'>
-            <Typography customClassName='text-black text-center text-[28px] mmd:text-[1.25rem] font-medium font-inter tracking[-0.014em]'>
+            <Typography customClassName='text-black text-center text-[28px] mmd:text-[1.25rem] font-semi-bold font-inter tracking[-0.014em]'>
             Create Product
             </Typography>
         </div>
