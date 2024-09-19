@@ -3,7 +3,7 @@ import React from "react";
 export default function Twitter() {
   return (
     <svg
-      className="mxs:w-[1rem] mxs:h-[1rem]"
+     className="mxs:w-[1rem] mxs:h-[1rem] !w-[25px] !h-[23px]"
       xmlns="http://www.w3.org/2000/svg"
       width="25"
       height="23"

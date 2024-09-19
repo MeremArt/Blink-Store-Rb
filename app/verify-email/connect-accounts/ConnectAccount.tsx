@@ -98,7 +98,7 @@ const ConnectAccount: React.FC = () => {
           label="Back to Home"
           leftIcon={<ArrowLeft />}
           fit
-          size="small"
+          size="smaller"
           customClassName="text-[#7839EE] mmd:text-white mxs:text-white mxs:bg-[#7839EE] mmd:bg-[#7839EE] font-Inter text-base mxs:text-[0.875rem] font-semibold leading-normal rounded-[2rem] border border-[#7839EE]"
           onClick={()=> router.push('/verify-email/verify')}
         />
@@ -106,15 +106,15 @@ const ConnectAccount: React.FC = () => {
 
       <div className="flex flex-col items-start gap-14 p-[72px_54px_104px_54px] mxs:p-[32px_24px_12px_24px] self-stretch rounded-lg bg-white shadow-[0px_0px_32px_0px_rgba(0,0,0,0.08)]">
         <div className="flex flex-col items-start gap-10 mxs:gap-4 self-stretch">
-          <div className="flex flex-col items-center gap-10 mxs:gap-4 self-stretch">
+          <div className="flex flex-col items-center gap-8 mxs:gap-4 self-stretch">
             <div>
               <Image src={logo} alt="logo" width={86.733} height={86.733} />
             </div>
-            <div className="flex flex-col gap-8 self-stretch text-center">
+            <div className="flex flex-col gap-4 self-stretch text-center">
               <Typography customClassName="text-[#48258B] text-center font-Inter text-2xl mxs:text-[18px] font-semibold leading-normal">
                 One last thing...
               </Typography>
-              <Typography customClassName="text-[#5B5B5B] text-center font-Inter text-base mxs:font-semi-bold font-medium leading-normal">
+              <Typography customClassName="text-[#5B5B5B] text-center font-Inter text-base  mxs:font-semi-bold font-medium leading-normal">
                 Connect your Twitter/X account and Wallet to proceed
               </Typography>
             </div>
@@ -139,8 +139,8 @@ const ConnectAccount: React.FC = () => {
         </div>
         <div className="w-full">
           <Button
-            label="proceed"
-            customClassName="flex h-[56px] px-6 py-4 justify-center items-center mxs:text-[0.875rem] gap-1 self-stretch rounded-[32px] bg-[#BFBFBF] text-white"
+            label="Proceed"
+            customClassName="flex h-[56px] px-6 py-4 justify-center items-center mxs:text-[0.875rem] gap-1 self-stretch rounded-[32px] bg-[#7839EE] text-white"
             disabled={isDisabled}
             onClick={proceedToNext}
             loading={isProceed}

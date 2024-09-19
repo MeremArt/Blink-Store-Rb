@@ -115,7 +115,7 @@ function Page() {
       </div>
       <div className=" mx-auto flex flex-col items-start lg:w-[826px] mmd:w-full px-[136px]  mxs:px-[24px] py-8 gap-8 mxs:gap-[1.5rem]  bg-[#FFF] shadow-[0_0_32px_0_rgba(0,_0,_0,_0.08)]">
         <div className="w-full">
-          <Typography customClassName="text-black text-center text-[28px] mmd:text-[20px] font-medium font-inter tracking[-0.014em]">
+          <Typography customClassName="text-black text-center text-[28px] mmd:text-[20px] font-semi-bold font-inter tracking[-0.014em]">
             Preview Product
           </Typography>
         </div>
@@ -123,7 +123,7 @@ function Page() {
           <div className="flex flex-col items-start gap-6 self-stretch">
             <div className="flex relative h-[326px] mxs:h-[240px] w-full items-start gap-1 self-stretch">
               <Image
-                className="absolute rounded-[8px]"
+                className="absolute rounded-[16px]"
                 src={image ? image : newPlaceholder}
                 alt="preview-image"
                 fill
