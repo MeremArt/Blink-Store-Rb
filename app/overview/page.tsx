@@ -28,6 +28,8 @@ import { GetProgramAccountsFilter } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
 import { formatDate } from "./dummydata";
+
+import Logo from "@/assets/images/Logo.svg"
 import {
   clusterApiUrl,
   Connection,
@@ -38,6 +40,8 @@ import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 
 import UpDown from "@/assets/svg-comps/up-and-down";
 import { useRouter } from "next/navigation";
+import { shortenString } from "@/components/table-comp";
+
 interface Transaction {
   signature: string;
   date: string;
@@ -64,7 +68,6 @@ function Page() {
     (state: any) => state.transaction.success
   );
 
-  // USDC Devnet Mint Address
   const USDC_DEVNET_MINT = "ADk8YZmNLf1qBr8V46UD1NVtxdNSr6z4mPt2Dx7sBksW";
 
   useEffect(() => {
@@ -76,7 +79,7 @@ function Page() {
       (async function getBalanceEvery10Seconds() {
         const newBalance = await connection.getBalance(publicKey);
         setBalance(newBalance / LAMPORTS_PER_SOL);
-        setTimeout(getBalanceEvery10Seconds, 10000); // Refresh SOL balance every 10 seconds
+        setTimeout(getBalanceEvery10Seconds, 10000); 
       })();
     }
 
@@ -138,18 +141,107 @@ function Page() {
     }
   }, [publicKey, connection, balance]);
 
-  useEffect(() => {
-    const getTwitterProfile = async () => {
-      const getTwitterId = JSON.parse(localStorage.getItem("id") || "null");
-      const response = await axios.get(
-        `https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`
-      );
-      const { success, message, data } = response.data;
-      setProfileObject(data);
-    };
+  // useEffect(() => {
+  //   const getTwitterProfile = async () => {
+  //     const getTwitterId = JSON.parse(localStorage.getItem("id") || "null");
+  //     const response = await axios.get(
+  //       `https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`
+  //     );
+  //     const { success, message, data } = response.data;
+  //     setProfileObject(data);
+  //   };
+  
+  // const HELIUS_RPC_URL =
+  //   "https://rpc.helius.xyz?api-key=4facc46f-a686-4906-8283-45f08abb210f";
+  // const connection = new Connection(HELIUS_RPC_URL);
+  // const USDC_MINT_ADDRESS = new PublicKey(
+  //   "EPjFWdd5AufqSSqeM2qZQDh1z1XkA9tcA1gSgKuG9x5w"
+  // );
+  // Fetch Wallet Transactions URL
+  // useEffect(() => {
+  //   if (!publicKey) {
+  //     console.log("No publicKey found.");
+  //     return;
+  //   }
+  //   setParseHistoryUrl(
+  //     `https://api.helius.xyz/v0/addresses/${publicKey}/transactions?api-key=4facc46f-a686-4906-8283-45f08abb210f`
+  //   );
+  // }, [publicKey]);
 
-    getTwitterProfile();
-  }, []);
+  // useEffect(() => {
+    //   const fetchBalances = async () => {
+  //     console.log("Fetching balances...");
+  //     console.log("PublicKey:", publicKey?.toBase58());
+  //     console.log("Connection:", connection.rpcEndpoint);
+  //     if (!connection || !publicKey) return;
+  //     try {
+  //       // Get associated token account for BONK
+  //       const bonkTokenAccount = await getAssociatedTokenAddress(
+    //         USDC_MINT_ADDRESS,
+  //         publicKey
+  //       );
+  //       console.log("BONK Token Account:", bonkTokenAccount.toBase58());
+
+  //       // Fetch BONK token balance
+  //       const bonkAccountInfo = await connection.getTokenAccountBalance(
+  //         bonkTokenAccount
+  //       );
+  //       console.log("BONK Account Info:", bonkAccountInfo);
+
+  //       const bonkBalance = parseFloat(
+  //         (bonkAccountInfo.value.amount / 10 ** 5).toFixed(5)
+  //       ); // Amount is in the smallest unit
+  //       setBonkBalance(bonkBalance);
+  //     } catch (error) {
+  //       console.error("Failed to fetch BONK balance:", error);
+  
+  //       // Attempt to create the associated token account if it doesn't exist
+  //       try {
+  //         const bonkTokenAccount = await createAssociatedTokenAccount(
+  //           connection,
+  //           publicKey,
+  //           USDC_MINT_ADDRESS,
+  //           publicKey
+  //         );
+  
+  //         console.log(
+  //           "Created BONK Token Account:",
+  //           bonkTokenAccount.toBase58()
+  //         );
+
+  //         // Fetch BONK token balance again
+  //         const bonkAccountInfo = await connection.getTokenAccountBalance(
+  //           bonkTokenAccount
+  //         );
+  //         console.log("BONK Account Info:", bonkAccountInfo);
+
+  //         const bonkBalance = bonkAccountInfo.value.amount; // Amount is in the smallest unit
+  //         setBonkBalance(bonkBalance);
+  //       } catch (creationError) {
+  //         console.error("Failed to create BONK token account:", creationError);
+  //         setBonkBalance(0);
+  //       }
+  //     }
+  //   };
+  
+  //   fetchBalances();
+  // }, [connection, publicKey]);
+  
+
+
+  // useEffect(()=>{
+  //   const getTwitterProfile = async ()=>{
+  //     const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null");
+  //     const response = await axios.get(`https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`);
+  //       const{success, message, data} = response.data;
+  //       setProfileObject(data)
+  //   };
+
+  //   getTwitterProfile();
+  // }, []);
+  //   getTwitterProfile();
+  // },[])
+
 
   useEffect(() => {
     const getUserTransactions = async () => {
@@ -196,6 +288,10 @@ function Page() {
     getUserTransactions();
   }, [publicKey, dispatch]);
 
+
+  console.log(publicKey)
+  
+
   return (
     <>
       <div className="flex md:max-w-[406px] lg:w-[406px] flex-col items-start gap-4 h-full mxs:w-full">
@@ -210,13 +306,14 @@ function Page() {
           </div>
           <div className=" mx-auto relative flex w-[147px] flex-col items-center gap-2  top-[-50px]">
             <div className="relative w-[120px] h-[120px] rounded-[20px] pb-[20px]">
-              <Image className="absolute" src={profile} alt="profile" fill />
+              <Image className="absolute" src={Logo} alt="profile" fill />
             </div>
             <div className=" relative flex flex-col justify-center items-center gap-2 self-stretch">
-              {/* <Typography>{profileObject?.name}</Typography> */}
+              <Typography>{shortenString(publicKey?.toString())}</Typography>
               <div className="flex p-2 px-3 items-center gap-2 rounded-[24px] bg-[#000] ">
                 <Typography customClassName="text-white font-inter text-sm font-medium leading-normal">
-                  {/* @{profileObject.userN} */}
+                {shortenString(publicKey?.toString())}
+              
                 </Typography>
               </div>
             </div>

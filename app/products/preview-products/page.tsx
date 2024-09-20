@@ -35,7 +35,7 @@ function Page() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { name, image, amount, description } = product;
+  const { name, image, amount, description,quantity } = product;
 
   useEffect(() => {
     const getUserId = localStorage.getItem("publicKey");
@@ -69,6 +69,7 @@ function Page() {
       image: image,
       description: description,
       price: newAmount,
+      quantity:quantity,
     };
 
     try {
@@ -145,7 +146,7 @@ function Page() {
                 </div>
                 <div>
                   <Typography className="text-[#A0A0A1] font-inter text-lg mxs:text-[1rem] font-normal leading-normal">
-                    ≈ ₦35,479.97
+                    ≈ ${amount}
                   </Typography>
                 </div>
               </div>

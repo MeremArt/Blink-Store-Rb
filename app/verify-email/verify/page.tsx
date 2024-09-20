@@ -54,9 +54,9 @@ function Page() {
       } else {
         throw new Error("No data found for this email");
       }
-      } catch (err) {
+      } catch (err:any) {
           console.log(err)
-          toast.error('This email does not exist in the whitelist', {
+          toast.error(err?.message, {
             position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
