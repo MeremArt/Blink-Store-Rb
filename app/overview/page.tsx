@@ -28,8 +28,7 @@ import { GetProgramAccountsFilter } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
 import { formatDate } from "./dummydata";
-import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
-import { useWallet } from "@solana/wallet-adapter-react";
+
 import Logo from "@/assets/images/Logo.svg"
 import {
   clusterApiUrl,
@@ -69,7 +68,6 @@ function Page() {
     (state: any) => state.transaction.success
   );
 
-  // USDC Devnet Mint Address
   const USDC_DEVNET_MINT = "ADk8YZmNLf1qBr8V46UD1NVtxdNSr6z4mPt2Dx7sBksW";
 
   useEffect(() => {
@@ -81,7 +79,7 @@ function Page() {
       (async function getBalanceEvery10Seconds() {
         const newBalance = await connection.getBalance(publicKey);
         setBalance(newBalance / LAMPORTS_PER_SOL);
-        setTimeout(getBalanceEvery10Seconds, 10000); // Refresh SOL balance every 10 seconds
+        setTimeout(getBalanceEvery10Seconds, 10000); 
       })();
     }
 
@@ -143,15 +141,15 @@ function Page() {
     }
   }, [publicKey, connection, balance]);
 
-  useEffect(() => {
-    const getTwitterProfile = async () => {
-      const getTwitterId = JSON.parse(localStorage.getItem("id") || "null");
-      const response = await axios.get(
-        `https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`
-      );
-      const { success, message, data } = response.data;
-      setProfileObject(data);
-    };
+  // useEffect(() => {
+  //   const getTwitterProfile = async () => {
+  //     const getTwitterId = JSON.parse(localStorage.getItem("id") || "null");
+  //     const response = await axios.get(
+  //       `https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`
+  //     );
+  //     const { success, message, data } = response.data;
+  //     setProfileObject(data);
+  //   };
   
   // const HELIUS_RPC_URL =
   //   "https://rpc.helius.xyz?api-key=4facc46f-a686-4906-8283-45f08abb210f";
@@ -239,8 +237,8 @@ function Page() {
   //       setProfileObject(data)
   //   };
 
-    getTwitterProfile();
-  }, []);
+  //   getTwitterProfile();
+  // }, []);
   //   getTwitterProfile();
   // },[])
 
