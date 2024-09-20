@@ -47,7 +47,7 @@ export default function TableComp(prop: TableCompProps) {
   );
 }
 
-function shortenString(str: string) {
+export function shortenString(str: string | undefined) {
   if (str && str.length > 5) {
     return str.slice(0, 5) + "...";
   }

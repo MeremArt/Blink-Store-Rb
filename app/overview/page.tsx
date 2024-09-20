@@ -32,9 +32,11 @@ import {
 import { formatDate } from "./dummydata";
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
-
+import Logo from "@/assets/images/Logo.svg"
 import UpDown from "@/assets/svg-comps/up-and-down";
 import { useRouter } from "next/navigation";
+import { shortenString } from "@/components/table-comp";
+
 interface Transaction {
   signature: string;
   date: string;
@@ -136,16 +138,16 @@ function Page() {
   
 
 
-  useEffect(()=>{
-    const getTwitterProfile = async ()=>{
-      const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null");
-      const response = await axios.get(`https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`);
-        const{success, message, data} = response.data;
-        setProfileObject(data)
-    };
+  // useEffect(()=>{
+  //   const getTwitterProfile = async ()=>{
+  //     const getTwitterId = JSON.parse(localStorage.getItem('id')|| "null");
+  //     const response = await axios.get(`https://ribh-store.vercel.app/api/v1/user/${getTwitterId}`);
+  //       const{success, message, data} = response.data;
+  //       setProfileObject(data)
+  //   };
 
-    getTwitterProfile();
-  },[])
+  //   getTwitterProfile();
+  // },[])
 
 
   useEffect(() => {
@@ -192,6 +194,9 @@ function Page() {
 
     getUserTransactions();
   }, [publicKey, dispatch]);
+
+
+  console.log(publicKey)
   
   return (
     <>
@@ -207,13 +212,14 @@ function Page() {
           </div>
           <div className=" mx-auto relative flex w-[147px] flex-col items-center gap-2  top-[-50px]">
             <div className="relative w-[120px] h-[120px] rounded-[20px] pb-[20px]">
-              <Image className="absolute" src={profile} alt="profile" fill />
+              <Image className="absolute" src={Logo} alt="profile" fill />
             </div>
             <div className=" relative flex flex-col justify-center items-center gap-2 self-stretch">
-              {/* <Typography>{profileObject?.name}</Typography> */}
+              <Typography>{shortenString(publicKey?.toString())}</Typography>
               <div className="flex p-2 px-3 items-center gap-2 rounded-[24px] bg-[#000] ">
                 <Typography customClassName="text-white font-inter text-sm font-medium leading-normal">
-                  {/* @{profileObject.userN} */}
+                {shortenString(publicKey?.toString())}
+              
                 </Typography>
               </div>
             </div>

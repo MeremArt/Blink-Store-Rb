@@ -1,15 +1,47 @@
-import React,{ChangeEvent} from 'react'
+import React,{ChangeEvent, useState} from 'react'
 import { Typography } from '../typography'
 import { Button } from '../button'
 import PictureIcon from '../picture'
 import Image from 'next/image'
 import Wallet from '@/assets/svg-comps/wallet'
+import ArrowUp from '@/assets/svg-comps/arrow-up'
+import ArrowDown from '@/assets/svg-comps/arrow-down'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateQuantity } from '@/store/redux-slices/product-slice'
+
 type ImageProps={
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     image:string;
     id:string
 }
+
+
 export default function ProductImage({image,onChange,id}:ImageProps) {
+
+    const dispatch = useDispatch();
+    const quantity = useSelector((state:any)=> state.product.quantity)
+    const [value, setValue] = useState(0); 
+
+  const increment = () => {
+       dispatch(updateQuantity(quantity + 1));
+  };
+
+  const decrement = () => {
+    if (quantity > 0) {
+        dispatch(updateQuantity(quantity - 1));
+    }else{
+        return
+    }
+        
+  };
+
+  const handleInputChange = (e:any) => {
+    const newValue = Number(e.target.value);
+    if (newValue >= 0 && newValue <= 10) {
+        dispatch(updateQuantity(newValue)); 
+    }
+  };
+
   return (
     <div className='flex flex-col items-start gap-3 self-stretch'>
         <div>
@@ -59,11 +91,21 @@ export default function ProductImage({image,onChange,id}:ImageProps) {
         </div>
         <div className='flex flex-col items-start gap-3 self-stretch'>
             <div>
-                <Typography customClassName='text-[#5B5B5B] text-sm mmd:text-[0.75rem] font-normal font-inter'>Or upload image from URL</Typography>
+                <Typography customClassName='text-[#5B5B5B] text-sm mmd:text-[0.75rem] font-normal font-inter'>Please specify the number of units</Typography>
             </div>
-            <div className='flex h-[56px] px-2.5 py-2 justify-between items-center self-stretch rounded-2xl mmd:rounded-[24px] border border-[#BFBFBF] bg-[#FAFAFA]'>
-                <input className='w-full h-full outline-none placeholder:text-[#A6A6A6] placeholder:text-sm mmd:placeholder:text-[0.75rem] placeholder:font-medium font-inter' placeholder='Paste image URL here'/>
-                <Button label='update' fit customClassName='flex h-[40px] px-6 py-4 justify-center items-center gap-1 rounded-[24px] bg-[#7839EE] text-white'/>
+            <div className='relative flex h-[56px] px-2.5 py-2 justify-between items-center self-stretch rounded-2xl mmd:rounded-[24px] border border-[#BFBFBF] bg-[#FAFAFA]'>
+                <input
+                 type='number' 
+                  defaultValue={0} 
+                   value={quantity}
+                   onChange={handleInputChange}
+                   className='w-full h-full outline-none placeholder:text-[#A6A6A6] placeholder:text-sm mmd:placeholder:text-[0.75rem] placeholder:font-medium font-inter' 
+                   placeholder='Enter the number of units'
+                   />
+                    <div>
+                        <ArrowUp onClick={increment}/>
+                        <ArrowDown  onClick={decrement}/>
+                    </div>
             </div>
         </div>
         </div>
