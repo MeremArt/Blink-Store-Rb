@@ -74,7 +74,7 @@ function Page() {
 
     try {
       const response = await axios.post(
-        "https://ribh-store.vercel.app/api/v1/product",
+        "https://www.ribh.xyz/api/v1/product",
         formObject,
         {
           headers: {

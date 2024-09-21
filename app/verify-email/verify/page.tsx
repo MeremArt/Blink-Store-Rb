@@ -14,6 +14,7 @@ function Page() {
     const router = useRouter();
     const [isloading , setIsLoading] = useState<boolean>(false);
     const [userEmail , setUserEmail] = useState<string>('')
+    const [isUserOnWaitlist , setIsUserOnWaitlist] = useState<boolean>(false);
 
     const verifyEmail = async (e: any) => {
       e.preventDefault();
@@ -24,10 +25,10 @@ function Page() {
           setIsLoading(false); 
           return;
       }
-      console.log(userEmail,'userema')
+  
       try {
         const response = await axios.get(
-         `https://ribh-store.vercel.app/api/v1/user?email=${userEmail}`
+         `https://www.ribh.xyz/api/v1/user?email=${userEmail}`
       );
   
       
@@ -97,7 +98,13 @@ function Page() {
                 <Input name="Email address" label='Email address' placeholder="new.user@mail.com" passwordWay={false} onChange={(e:any)=>setUserEmail(e.target.value)}/>
             </div>
                 <div className="w-full">
-                    <Button label='Verify Email' type="submit" loading={isloading} size="small" customClassName="bg-[#7839EE] rounded-[2rem] mxs:text-[0.875rem] text-white"/>
+                    <Button
+                     label='Verify Email' 
+                     type="submit" 
+                     loading={isloading}
+                      size="small" 
+                      customClassName="bg-[#7839EE] rounded-[2rem] mxs:text-[0.875rem] text-white"
+                      />
                 </div>
             </form>
       </div>

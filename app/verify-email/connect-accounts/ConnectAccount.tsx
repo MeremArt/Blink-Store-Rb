@@ -17,31 +17,29 @@ import axios from "axios";
 import CorrectCircle from "@/assets/svg-comps/correct-circle";
 
 const ConnectAccount: React.FC = () => {
-  
-  const [isLoading , setIsLoading] = useState(false);
-  const[isDisabled , setIsDisabled] =useState(true);
-  const [isTwitterSuccess , setIsTwitterSuccess] = useState(false);
-  const[isProceed, setIsProceed] =useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isTwitterSuccess, setIsTwitterSuccess] = useState(false);
+  const [isProceed, setIsProceed] = useState(false);
   const router = useRouter();
   const { connected, publicKey } = useWallet();
 
   useEffect(() => {
-
     const connectTwitter = async () => {
       const params = new URLSearchParams(window.location.search);
-      const twitterUserId = params.get('twitterId');
-      const getuserEmail = JSON.parse(localStorage.getItem('email')|| "null"); 
+      const twitterUserId = params.get("twitterId");
+      const getuserEmail = JSON.parse(localStorage.getItem("email") || "null");
       if (twitterUserId && getuserEmail) {
         try {
-          console.log(getuserEmail, twitterUserId)
+          console.log(getuserEmail, twitterUserId);
           const response = await axios.patch(
-            `https://ribh-store.vercel.app/api/v1/auth/connect-twitter?twitterId=${twitterUserId}&email=${getuserEmail}`
+            `https://www.ribh.xyz/api/v1/auth/connect-twitter?twitterId=${twitterUserId}&email=${getuserEmail}`
           );
 
           if (response) {
             console.log(response);
-            const {success, message,data} = response.data; 
-            const {_id} = data;
+            const { success, message, data } = response.data;
+            const { _id } = data;
             setIsTwitterSuccess(success);
             localStorage.setItem("id", JSON.stringify(_id));
             toast.success(message, {
@@ -56,40 +54,38 @@ const ConnectAccount: React.FC = () => {
             router.push("/verify-email/connect-accounts");
           }
         } catch (error) {
-
           console.error("Error connecting Twitter account:", error);
         }
       }
     };
-  
 
     connectTwitter();
-    
-  }, []); 
-  
+  }, []);
 
-  useEffect(()=>{
-    if(isTwitterSuccess && publicKey && connected){
-      setIsDisabled(false)
+  const params = new URLSearchParams(window.location.search);
+  const twitterUserId = params.get("twitterId");
+  console.log(twitterUserId, "here");
+
+  useEffect(() => {
+    if (isTwitterSuccess && publicKey && connected) {
+      setIsDisabled(false);
     }
+  }, [isTwitterSuccess, publicKey, connected]);
 
-  },[isTwitterSuccess, publicKey,connected])
-  
-  const verifyTwitter = async()=>{
+  const verifyTwitter = async () => {
     setIsLoading(true);
-    const getuserEmail = JSON.parse(localStorage.getItem('email') || 'null');
-    const url = `https://ribh-store.vercel.app/api/v1/auth/twitter?email=${getuserEmail}`;
+    const getuserEmail = JSON.parse(localStorage.getItem("email") || "null");
+    const url = `https://www.ribh.xyz/api/v1/auth/twitter?email=${getuserEmail}`;
     window.open(url, "_self");
+  };
 
-  }
-
-  const proceedToNext =()=>{
-    setIsProceed(true)
-    setTimeout(()=>{
-      router.push('/overview')
-    },2000)
-    setIsProceed(false)
-  }
+  const proceedToNext = () => {
+    setIsProceed(true);
+    setTimeout(() => {
+      router.push("/overview");
+    }, 2000);
+    setIsProceed(false);
+  };
 
   return (
     <div className="flex flex-col items-center gap-12 flex-[1_0_0] self-stretch max-w-[42rem] h-full">
@@ -100,7 +96,7 @@ const ConnectAccount: React.FC = () => {
           fit
           size="smaller"
           customClassName="text-[#7839EE] mmd:text-white mxs:text-white mxs:bg-[#7839EE] mmd:bg-[#7839EE] font-Inter text-base mxs:text-[0.875rem] font-semibold leading-normal rounded-[2rem] border border-[#7839EE]"
-          onClick={()=> router.push('/verify-email/verify')}
+          onClick={() => router.push("/verify-email/verify")}
         />
       </div>
 
@@ -122,10 +118,12 @@ const ConnectAccount: React.FC = () => {
           <div className="flex flex-col items-start self-stretch">
             <div className="flex flex-col justify-center items-center gap-1 py-4 self-stretch border-b">
               <Button
-                label={isTwitterSuccess?'Account Connected':"Connect Account"}
+                label={
+                  isTwitterSuccess ? "Account Connected" : "Connect Account"
+                }
                 leftIcon={<Twitter />}
                 fit
-                rightIcon={isTwitterSuccess &&  <CorrectCircle/> }
+                rightIcon={isTwitterSuccess && <CorrectCircle />}
                 type="button"
                 customClassName="flex w-[256px] h-[56px] px-8 py-4 justify-center mxs:text-[0.875rem] items-center gap-4 bg-[#000] rounded-[32px] text-white"
                 onClick={verifyTwitter}
