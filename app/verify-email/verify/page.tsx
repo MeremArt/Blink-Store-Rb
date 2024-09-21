@@ -57,6 +57,21 @@ function Page() {
       }
       } catch (err:any) {
           console.log(err)
+          if(err.response.data){
+            const getMessage = err.response.data;
+            const {message} = getMessage;
+            toast.error(message, {
+              position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+            router.push('/verify-email/login');
+          };
+
           toast.error(err?.message, {
             position: "top-right",
           autoClose: 5000,
@@ -66,6 +81,7 @@ function Page() {
           draggable: true,
           progress: undefined,
           });
+          
       } finally {
           setIsLoading(false); 
       }
