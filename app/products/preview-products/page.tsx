@@ -69,7 +69,7 @@ function Page() {
       image: image,
       description: description,
       price: newAmount,
-      quantity:quantity,
+      amount:quantity,
     };
 
     try {
