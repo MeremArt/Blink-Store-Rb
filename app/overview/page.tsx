@@ -256,7 +256,7 @@ function Page() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://ribh-store.vercel.app/api/v1/transaction?publicKey=${publicKey.toString()}&numTx=8`
+          `https://www.ribh.xyz/api/v1/transaction?publicKey=${publicKey.toString()}&numTx=8`
         );
         const { data, success, message } = response.data;
 
