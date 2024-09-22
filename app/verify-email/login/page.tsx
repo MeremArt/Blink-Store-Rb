@@ -29,7 +29,7 @@ function Page() {
       const response = await axios.post(
         `https://www.ribh.xyz/api/v1/waitlist`,
         {
-          emails: userEmail,
+          email: userEmail,
         },
 
         {
