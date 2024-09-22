@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import logo from "@/assets/images/Logo - Ribh Finance.png";
 import { Button } from "../button";
@@ -10,6 +10,7 @@ import avatar from "@/assets/images/Avatar.svg";
 import Logo from "@/assets/images/Logo.svg";
 import { useRouter } from "next/navigation";
 export default function SecondNavBar() {
+  const [email, setEmail] = useState("");
   const router = useRouter();
   const toHome = () => {
     router.push("/verify-email/verify");
@@ -22,6 +23,13 @@ export default function SecondNavBar() {
   };
 
   const { publicKey, signTransaction } = useWallet();
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setEmail(JSON.parse(storedEmail));
+    }
+  }, []);
   return (
     <div className="flex h-[88px] px-[96px] mxs:p-[1rem] w-full py-4 justify-between items-center">
       <div onClick={toHome}>
@@ -31,7 +39,7 @@ export default function SecondNavBar() {
         <div className="flex items-center gap-[16px]">
           <Typography customClassName="mmd:hidden">
             {" "}
-            {shortenString(publicKey?.toString())}
+            {email.split("@")[0]}
           </Typography>
           <div className=" relative flex w-[48px] h-[48px] justify-center items-center">
             <Image src={avatar} alt="avatar" fill />
