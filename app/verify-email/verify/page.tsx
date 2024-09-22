@@ -38,7 +38,7 @@ function Page() {
         console.log("yes");
         const { email } = data;
         localStorage.setItem("email", JSON.stringify(email));
-        toast.success("Welcome ${email}", {
+        toast.success(`Welcome ${email}`, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
