@@ -160,6 +160,14 @@ function Page() {
               </Typography>
             </div>
             <div className="flex flex-col items-start gap-2 self-stretch">
+              <Typography className="text-[#5B5B5B] font-inter text-base mxs:text-[0.875rem] font-normal leading-normal">
+                Product Quantity
+              </Typography>
+              <Typography className="text-[#000] font-inter text-lg font-medium leading-normal">
+                {quantity}
+              </Typography>
+            </div>
+            <div className="flex flex-col items-start gap-2 self-stretch">
               <Typography className="text-[#5B5B5B] font-inter text-base  mxs:text-[0.875rem] font-normal leading-normal">
                 Description
               </Typography>
