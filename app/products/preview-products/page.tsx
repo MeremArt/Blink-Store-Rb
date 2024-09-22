@@ -91,12 +91,16 @@ function Page() {
       setIsLoading(false);
     } catch (err: any) {
       const errorMessage = err?.message || "An error occurred";
+      if(err.response.data){
+        const {message}= err.response.data
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 5000,
+        });
+      }
       console.log(err, "Error");
 
-      toast.error(errorMessage, {
-        position: "top-right",
-        autoClose: 5000,
-      });
+      
       setIsLoading(false);
     }
   };
