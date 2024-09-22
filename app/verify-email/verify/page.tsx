@@ -37,8 +37,13 @@ function Page() {
       if (data) {
         console.log("yes");
         const { email } = data;
+
+        // Extract the name part of the email before @
+        const emailName = email.split("@")[0];
+
         localStorage.setItem("email", JSON.stringify(email));
-        toast.success(`Welcome ${email}`, {
+
+        toast.success(`Welcome ${emailName}`, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -47,6 +52,7 @@ function Page() {
           draggable: true,
           progress: undefined,
         });
+
         router.push("/verify-email/connect-accounts");
       } else {
         throw new Error("No data found for this email");
