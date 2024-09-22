@@ -42,7 +42,7 @@ export default function SecondNavBar() {
             {email.split("@")[0]}
           </Typography>
           <div className=" relative flex w-[48px] h-[48px] justify-center items-center">
-            <Image src={logo} alt="avatar" fill />
+            <Image src={Logo} alt="avatar" fill />
           </div>
         </div>
         <div className="mmd:hidden">
