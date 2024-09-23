@@ -60,7 +60,26 @@ const ConnectAccount: React.FC = () => {
     };
 
     connectTwitter();
-  }, []);
+  }, [connected, publicKey]);
+
+  useEffect(()=>{
+    const sendPublicKey = async ()=>{
+      const getuserEmail = JSON.parse(localStorage.getItem("email") || "null");
+      try{
+        const response = await axios.patch(`https://www.ribh.xyz/api/v1/auth/connect-wallet?email=${getuserEmail}`,
+          {
+            'pubKey': publicKey?.toString(),
+          }
+        )
+        console.log(response, "e work")
+      }catch(err){
+        console.log(err, 'e no work')
+      }
+
+    }
+
+    sendPublicKey()
+  },[])
 
   const params = new URLSearchParams(window.location.search);
   const twitterUserId = params.get("twitterId");
