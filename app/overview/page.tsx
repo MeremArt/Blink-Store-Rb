@@ -29,7 +29,7 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
 import { formatDate } from "./dummydata";
 
-import Logo from "@/assets/images/Logo.svg"
+import Logo from "@/assets/images/Logo.svg";
 import {
   clusterApiUrl,
   Connection,
@@ -68,26 +68,10 @@ function Page() {
     (state: any) => state.transaction.success
   );
 
-  const USDC_DEVNET_MINT = "ADk8YZmNLf1qBr8V46UD1NVtxdNSr6z4mPt2Dx7sBksW";
-
-  useEffect(() => {
-    const rpcEndpoint =
-      "https://dawn-weathered-tab.solana-devnet.quiknode.pro/4dc4791564c9683ee866a71ec1eee26d7d181f9e/";
-    const solanaConnection = new Connection(rpcEndpoint);
-
-    if (publicKey) {
-      (async function getBalanceEvery10Seconds() {
-        const newBalance = await connection.getBalance(publicKey);
-        setBalance(newBalance / LAMPORTS_PER_SOL);
-        setTimeout(getBalanceEvery10Seconds, 10000); 
-      })();
-    }
-
-    // Function to fetch USDC token balance
-    async function getTokenAccounts(
-      wallet: string,
-      solanaConnection: Connection
-    ) {
+  const USDC_MAINNET_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+  const fetchUsdcBalance = async () => {
+    if (!publicKey) return;
+    try {
       const filters: GetProgramAccountsFilter[] = [
         {
           dataSize: 165, // size of token account
@@ -95,51 +79,57 @@ function Page() {
         {
           memcmp: {
             offset: 32, // owner address (wallet public key)
-            bytes: wallet, // base58 encoded wallet public key
+            bytes: publicKey.toBase58(), // base58 encoded wallet public key
           },
         },
         {
           memcmp: {
-            offset: 0, // mint address location (should be 44, not 0)
-            bytes: USDC_DEVNET_MINT, // USDC mint address for Devnet
+            offset: 0, // mint address location
+            bytes: USDC_MAINNET_MINT, // USDC mint address for Mainnet
           },
         },
       ];
 
-      const accounts = await solanaConnection.getParsedProgramAccounts(
+      const accounts = await connection.getParsedProgramAccounts(
         TOKEN_PROGRAM_ID,
         { filters: filters }
       );
 
-      console.log(
-        `Found ${accounts.length} token account(s) for wallet ${wallet}.`
-      );
-
       if (accounts.length > 0) {
-        accounts.forEach((account, i) => {
-          const parsedAccountInfo: any = account.account.data;
-          const mintAddress: string =
-            parsedAccountInfo["parsed"]["info"]["mint"];
-          const tokenBalance: number =
-            parsedAccountInfo["parsed"]["info"]["tokenAmount"]["uiAmount"];
-
-          console.log(
-            `Token Account No. ${i + 1}: ${account.pubkey.toString()}`
-          );
-          console.log(`--Token Mint: ${mintAddress}`);
-          console.log(`--Token Balance: ${tokenBalance}`);
-
-          setUsdcBalance(tokenBalance.toFixed(2)); // Format to 2 decimal places
-        });
+        const tokenAmount = accounts
+          .map((account) => {
+            const parsedAccountInfo: any = account.account.data;
+            return (
+              parsedAccountInfo["parsed"]["info"]["tokenAmount"]["uiAmount"] ||
+              0
+            );
+          })
+          .reduce((acc, curr) => acc + curr, 0); // Sum all USDC balances
+        setUsdcBalance(tokenAmount.toFixed(2)); // Format to 2 decimal places
       } else {
-        setUsdcBalance("0.00"); // No USDC found
+        setUsdcBalance("0.00");
       }
+    } catch (error) {
+      console.error("Error fetching USDC balance:", error);
+      setUsdcBalance("0.00");
     }
+  };
+  useEffect(() => {
+    if (publicKey) {
+      setLoading(true);
 
-    if (walletToQuery) {
-      getTokenAccounts(walletToQuery, solanaConnection);
+      // Fetch balances every 10 seconds
+      const fetchBalances = async () => {
+        await fetchUsdcBalance();
+        setLoading(false); // Stop loading when data is fetched
+      };
+
+      fetchBalances();
+      const intervalId = setInterval(fetchBalances, 10000); // Refresh every 10 seconds
+
+      return () => clearInterval(intervalId); // Cleanup interval on component unmount
     }
-  }, [publicKey, connection, balance]);
+  }, [publicKey, connection]);
 
   // useEffect(() => {
   //   const getTwitterProfile = async () => {
@@ -150,7 +140,7 @@ function Page() {
   //     const { success, message, data } = response.data;
   //     setProfileObject(data);
   //   };
-  
+
   // const HELIUS_RPC_URL =
   //   "https://rpc.helius.xyz?api-key=4facc46f-a686-4906-8283-45f08abb210f";
   // const connection = new Connection(HELIUS_RPC_URL);
@@ -169,7 +159,7 @@ function Page() {
   // }, [publicKey]);
 
   // useEffect(() => {
-    //   const fetchBalances = async () => {
+  //   const fetchBalances = async () => {
   //     console.log("Fetching balances...");
   //     console.log("PublicKey:", publicKey?.toBase58());
   //     console.log("Connection:", connection.rpcEndpoint);
@@ -177,7 +167,7 @@ function Page() {
   //     try {
   //       // Get associated token account for BONK
   //       const bonkTokenAccount = await getAssociatedTokenAddress(
-    //         USDC_MINT_ADDRESS,
+  //         USDC_MINT_ADDRESS,
   //         publicKey
   //       );
   //       console.log("BONK Token Account:", bonkTokenAccount.toBase58());
@@ -194,7 +184,7 @@ function Page() {
   //       setBonkBalance(bonkBalance);
   //     } catch (error) {
   //       console.error("Failed to fetch BONK balance:", error);
-  
+
   //       // Attempt to create the associated token account if it doesn't exist
   //       try {
   //         const bonkTokenAccount = await createAssociatedTokenAccount(
@@ -203,7 +193,7 @@ function Page() {
   //           USDC_MINT_ADDRESS,
   //           publicKey
   //         );
-  
+
   //         console.log(
   //           "Created BONK Token Account:",
   //           bonkTokenAccount.toBase58()
@@ -223,11 +213,9 @@ function Page() {
   //       }
   //     }
   //   };
-  
+
   //   fetchBalances();
   // }, [connection, publicKey]);
-  
-
 
   // useEffect(()=>{
   //   const getTwitterProfile = async ()=>{
@@ -241,7 +229,6 @@ function Page() {
   // }, []);
   //   getTwitterProfile();
   // },[])
-
 
   useEffect(() => {
     const getUserTransactions = async () => {
@@ -288,9 +275,7 @@ function Page() {
     getUserTransactions();
   }, [publicKey, dispatch]);
 
-
-  console.log(publicKey)
-  
+  console.log(publicKey);
 
   return (
     <>
@@ -312,8 +297,7 @@ function Page() {
               <Typography>{shortenString(publicKey?.toString())}</Typography>
               <div className="flex p-2 px-3 items-center gap-2 rounded-[24px] bg-[#000] ">
                 <Typography customClassName="text-white font-inter text-sm font-medium leading-normal">
-                {shortenString(publicKey?.toString())}
-              
+                  {shortenString(publicKey?.toString())}
                 </Typography>
               </div>
             </div>
