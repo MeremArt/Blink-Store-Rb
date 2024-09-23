@@ -25,7 +25,7 @@ export default function AppWalletProvider({
 
   // Use the environment variable for the RPC URL
   const endpoint = useMemo(
-    () => process.env.NEXT_PUBLIC_SOLANA_RPC_URL,
+    () => process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "",
     [network]
   );
 
