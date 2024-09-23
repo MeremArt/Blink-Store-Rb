@@ -4,19 +4,16 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { useSearchParams } from "next/navigation";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
+import { clusterApiUrl } from "@solana/web3.js";
 
+import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 import { TipLinkWalletAdapter } from "@tiplink/wallet-adapter";
-import { TipLinkWalletAutoConnectV2 } from "@tiplink/wallet-adapter-react-ui";
-import { Suspense } from "react";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 export default function AppWalletProvider({
@@ -25,7 +22,13 @@ export default function AppWalletProvider({
   children: React.ReactNode;
 }) {
   const network = WalletAdapterNetwork.Mainnet;
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
+  // Use the environment variable for the RPC URL
+  const endpoint = useMemo(
+    () => process.env.NEXT_PUBLIC_SOLANA_RPC_URL,
+    [network]
+  );
+
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
@@ -33,7 +36,6 @@ export default function AppWalletProvider({
       new BackpackWalletAdapter(),
       new TipLinkWalletAdapter({
         title: "Ribh Store",
-
         clientId: "65783e67-8b6d-4da9-b2ba-40139abc7557",
         theme: "dark",
         hideDraggableWidget: true,
