@@ -15,6 +15,7 @@ import shopping from "@/assets/images/bag-dynamic-color.svg";
 import Plus from "@/assets/svg-comps/plus";
 import BluePlus from "@/assets/svg-comps/blue-pick";
 import { formatTime } from "./dummydata";
+// import { Connection, PublicKey } from '@solana/web3.js';
 import TableComp from "@/components/table-comp";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -276,6 +277,27 @@ function Page() {
   }, [publicKey, dispatch]);
 
   console.log(publicKey);
+
+
+
+//   useEffect(()=>{
+
+// const network = "https://api.mainnet-beta.solana.com"; // Mainnet endpoint
+// const connection = new Connection(network);
+
+// const getUserTransactions = async ()=> {
+//     console.log("this function works")
+//     try {
+//         const publicKeyVariable = new PublicKey(`${publicKey.toString()}`);
+//         const balance = await connection.getBalance(publicKeyVariable);
+//         console.log(balance,"balance");
+//     } catch (error) {
+//         console.error('Failed to get balance:', error);
+//     }
+// }
+// getUserTransactions();
+// ;
+//   },[publicKey, dispatch])
 
   return (
     <>
