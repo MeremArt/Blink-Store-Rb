@@ -278,26 +278,24 @@ function Page() {
 
   console.log(publicKey);
 
+  //   useEffect(()=>{
 
+  // const network = "https://api.mainnet-beta.solana.com"; // Mainnet endpoint
+  // const connection = new Connection(network);
 
-//   useEffect(()=>{
-
-// const network = "https://api.mainnet-beta.solana.com"; // Mainnet endpoint
-// const connection = new Connection(network);
-
-// const getUserTransactions = async ()=> {
-//     console.log("this function works")
-//     try {
-//         const publicKeyVariable = new PublicKey(`${publicKey.toString()}`);
-//         const balance = await connection.getBalance(publicKeyVariable);
-//         console.log(balance,"balance");
-//     } catch (error) {
-//         console.error('Failed to get balance:', error);
-//     }
-// }
-// getUserTransactions();
-// ;
-//   },[publicKey, dispatch])
+  // const getUserTransactions = async ()=> {
+  //     console.log("this function works")
+  //     try {
+  //         const publicKeyVariable = new PublicKey(`${publicKey.toString()}`);
+  //         const balance = await connection.getBalance(publicKeyVariable);
+  //         console.log(balance,"balance");
+  //     } catch (error) {
+  //         console.error('Failed to get balance:', error);
+  //     }
+  // }
+  // getUserTransactions();
+  // ;
+  //   },[publicKey, dispatch])
 
   return (
     <>
@@ -357,7 +355,7 @@ function Page() {
           <div className="flex items-center gap-[7px] self-stretch">
             <DollarIcon />
             <Typography customClassName="text-[#000] font-inter text-[32px] font-bold leading-normal">
-              12,678.42
+              <p>{usdcBalance}</p>
             </Typography>
           </div>
         </div>
@@ -372,7 +370,7 @@ function Page() {
               </Typography>
             </div>
             <Typography customClassName="text-[#000] font-inter text-[32px] font-bold leading-normal">
-              429
+              1
             </Typography>
           </div>
           <div className="flex flex-col items-start p-4 gap-3 flex-1 rounded-lg bg-white shadow-lg mxs:w-full">
@@ -384,7 +382,7 @@ function Page() {
               </Typography>
             </div>
             <Typography customClassName="text-[#000] font-inter text-[32px] font-bold leading-normal">
-              429
+              10
             </Typography>
           </div>
         </div>
