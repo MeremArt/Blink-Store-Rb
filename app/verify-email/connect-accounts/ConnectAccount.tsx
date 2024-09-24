@@ -119,8 +119,8 @@ const ConnectAccount: React.FC = () => {
         />
       </div>
 
-      <div className="flex flex-col items-start gap-14 p-[72px_54px_104px_54px] mxs:p-[32px_24px_12px_24px] self-stretch rounded-lg bg-white shadow-[0px_0px_32px_0px_rgba(0,0,0,0.08)]">
-        <div className="flex flex-col items-start gap-10 mxs:gap-4 self-stretch">
+      <div className="flex flex-col items-center justify-center border gap-4 p-[72px_54px_104px_54px] mxs:p-[32px_24px_12px_24px] self-stretch rounded-lg bg-white shadow-[0px_0px_32px_0px_rgba(0,0,0,0.08)] h-full">
+        <div className="flex flex-col items-start  mxs:gap-4 self-stretch">
           <div className="flex flex-col items-center gap-8 mxs:gap-4 self-stretch">
             <div>
               <Image src={logo} alt="logo" width={86.733} height={86.733} />
@@ -165,7 +165,7 @@ const ConnectAccount: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex items-end gap-4 flex-[1_0_0] self-stretch">
+      <div className="flex items-end gap-4 self-stretch">
         <div className="rounded-[100px] bg-[linear-gradient(90deg,#7839EE_0%,#A27DFF_50.8%,#4E55FF_100%)] h-[12px] flex-[1_0_0]"></div>
         <div className="rounded-[100px] bg-[linear-gradient(90deg,#7839EE_0%,#A27DFF_50.8%,#4E55FF_100%)] h-[12px] flex-[1_0_0]"></div>
       </div>
