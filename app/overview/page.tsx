@@ -350,7 +350,7 @@ function Page() {
             <Coin />
             <div>
               <Typography customClassName="text-[#48258B] font-inter text-[16px] font-medium leading-normal">
-                Total Earnings
+                Total Earnings 
               </Typography>
             </div>
           </div>
