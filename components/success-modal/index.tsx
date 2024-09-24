@@ -32,8 +32,6 @@ const router = useRouter();
           toast.error("Failed to copy!"); 
           console.error("Error copying to clipboard: ", err);
         });
-
-        router.push('/products/create-products');
     } else {
       toast.error("No link to copy!"); 
     }
