@@ -20,12 +20,14 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { addEvent } from "@/store/redux-slices/event-slices";
 import newPlaceholder from "@/assets/images/gallery.png";
-import { formatString } from "@/app/overview/dummydata";
+import { formatAmount, formatString } from "@/app/overview/dummydata";
+
 
 function Page() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [merchantId, setMerchantId] = useState<string | null>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [nairaAmount , setNairaAMount] = useState<string>('')
   const product = useSelector((state: any) => state.product);
   const event = useSelector((state: any) => state.event.events);
 
@@ -46,10 +48,28 @@ function Page() {
     return name && description && amount > 0 && image;
   };
 
+  // async function getUSDCtoNGNRate() {
+  //   const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=usd-coin&vs_currencies=ngn');
+  //   const data = await response.json();
+  //   console.log(data['usd-coin'].ngn, ' naira conversation')
+  //   return data['usd-coin'].ngn;
+  // }
+  
+  useEffect(()=>{
+    const getUSDCtoNGNRate = async () => {
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=usd-coin&vs_currencies=ngn');
+      const data = await response.json();
+      const getData = data['usd-coin'].ngn
+      let num = formatString(amount)
+      const nairaAmount = num * getData;
+      setNairaAMount(nairaAmount?.toString())
+    }
 
-
-
-
+    getUSDCtoNGNRate()
+  },[amount])
+  
+ 
+ 
 
 
   const getState = checkState();
@@ -150,7 +170,8 @@ function Page() {
                 </div>
                 <div>
                   <Typography className="text-[#A0A0A1] font-inter text-lg mxs:text-[1rem] font-normal leading-normal">
-                    ≈ ${amount}
+                    ≈ ₦ {formatAmount(nairaAmount)}
+
                   </Typography>
                 </div>
               </div>
