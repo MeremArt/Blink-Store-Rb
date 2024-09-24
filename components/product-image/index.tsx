@@ -96,7 +96,6 @@ export default function ProductImage({image,onChange,id}:ImageProps) {
             <div className='relative flex h-[56px] px-2.5 py-2 justify-between items-center self-stretch rounded-2xl mmd:rounded-[24px] border border-[#BFBFBF] bg-[#FAFAFA]'>
                 <input
                  type='number' 
-                //   defaultValue={0} 
                    value={quantity}
                    onChange={handleInputChange}
                    className='w-full h-full outline-none placeholder:text-[#A6A6A6] placeholder:text-sm mmd:placeholder:text-[0.75rem] placeholder:font-medium font-inter' 
