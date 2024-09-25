@@ -68,10 +68,9 @@ function Page() {
     getUSDCtoNGNRate()
   },[amount])
   
- 
- 
-
-
+  
+  
+  
   const getState = checkState();
   console.log( amount, 'see')
   const submitEventForm = async () => {
@@ -82,16 +81,17 @@ function Page() {
     //   toast.error('Nothing to send')
     //   return
     // }
-   const newAmount = formatString(amount)
+    console.log(typeof merchantId?.toString(), 'checking')
+    const newAmount = formatString(amount)
     const formObject = {
-      merchantId: merchantId,
+      merchantId: merchantId?.toString(),
       name: name,
       image: image,
       description: description,
       price: newAmount,
       amount:quantity,
     };
-
+    
     try {
       const response = await axios.post(
         "https://www.ribh.xyz/api/v1/product",
@@ -110,6 +110,7 @@ function Page() {
       setShowModal(true);
       setIsLoading(false);
     } catch (err: any) {
+  
       const errorMessage = err?.message || "An error occurred";
       if(err.response.data){
         const {message}= err.response.data
