@@ -37,7 +37,7 @@ export default function ProductImage({image,onChange,id}:ImageProps) {
 
   const handleInputChange = (e:any) => {
     const newValue = Number(e.target.value);
-    if (newValue >= 0 && newValue <= 10) {
+    if (newValue) {
         dispatch(updateQuantity(newValue)); 
     }
   };
@@ -101,10 +101,10 @@ export default function ProductImage({image,onChange,id}:ImageProps) {
                    className='w-full h-full outline-none placeholder:text-[#A6A6A6] placeholder:text-sm mmd:placeholder:text-[0.75rem] placeholder:font-medium font-inter' 
                    placeholder='Enter the number of units'
                    />
-                    <div>
+                    {/* <div>
                         <ArrowUp onClick={increment}/>
                         <ArrowDown  onClick={decrement}/>
-                    </div>
+                    </div> */}
             </div>
         </div>
         </div>
