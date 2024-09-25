@@ -115,7 +115,7 @@ function Page() {
           </div>
         </div>
         <form
-          className="flex flex-col items-start gap-16 mxs:gap-10 self-stretch"
+          className="flex flex-col items-start gap-10 mxs:gap-10 self-stretch"
           onSubmit={verifyEmail}
         >
           <div className="w-full ">

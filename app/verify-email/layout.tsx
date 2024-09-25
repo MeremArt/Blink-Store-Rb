@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className=" relative flex  flex-row gap-[1rem] w-full mmd:items-center mmd:justify-center  ">
       <Image className=' object-cover lg:hidden mmd:w-full' src={phonesize} alt='phone size' fill/>
-      <div className="relative w-1/2 p-[1rem]  mmd:hidden">
+      <div className="relative w-1/2  p-[1rem]  mmd:hidden ">
         <Image 
           className="object-cover" 
           src={backgroundImage} 

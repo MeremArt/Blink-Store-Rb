@@ -74,7 +74,7 @@ function Page() {
     <div className="flex flex-col items-center gap-12 flex-[1_0_0] self-stretch max-w-[42rem] h-full">
       <div className="flex flex-col items-end gap-1 self-stretch "></div>
 
-      <div className="flex flex-col items-start gap-14 mxs:gap-10  p-[72px_54px_104px_54px] mxs:p-[32px_24px_12px_24px] self-stretch rounded-lg bg-white shadow-[0px_0px_32px_0px_rgba(0,0,0,0.08)]">
+      <div className="flex flex-col items-center justify-center  mxs:gap-10  p-[72px_54px_104px_54px] mxs:p-[32px_24px_12px_24px] self-stretch rounded-lg bg-white shadow-[0px_0px_32px_0px_rgba(0,0,0,0.08)] h-full">
         <div className="flex flex-col items-center gap-10 mxs:gap-[20px] self-stretch">
           <div>
             <Image src={logo} alt="logo" width={86.733} height={86.733} />
@@ -89,7 +89,7 @@ function Page() {
           </div>
         </div>
         <form
-          className="flex flex-col items-start gap-16 mxs:gap-10 self-stretch"
+          className="flex flex-col items-start gap-10 mxs:gap-10 self-stretch"
           onSubmit={registerEmail}
         >
           <div className="w-full ">
