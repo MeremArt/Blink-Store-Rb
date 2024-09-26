@@ -431,10 +431,6 @@ function Page() {
           ) : (
             <div>loading...</div>
           )}
-
-          {/* <div className="flex p-2 items-start gap-1 self-stretch">
-
-                </div> */}
         </div>
       </div>
     </>
