@@ -48,7 +48,7 @@ export default function ProductImage({image,onChange,id}:ImageProps) {
             <Typography customClassName='text-[#5B5B5B] text-base mmd:text-[0.75rem] font-normal'>Product Image</Typography>
         </div>
         <div className='flex flex-col items-start gap-2 self-stretch'>
-        <div className='flex flex-col p-6 items-center gap-1 self-stretch rounded-2xl border border-dashed border-[#BFBFBF] bg-[#FAFAFA]'   onClick={() => {
+        <div className='flex flex-col p-6 items-center gap-1 self-stretch rounded-2xl border border-dashed border-[#BFBFBF] bg-[#FAFAFA] cursor-pointer'   onClick={() => {
                         const inputElement = document.getElementById(id) as HTMLInputElement;
                         if (inputElement && !image) {
                             inputElement.click();
