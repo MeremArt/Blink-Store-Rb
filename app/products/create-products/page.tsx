@@ -9,24 +9,24 @@ import Image from 'next/image'
 import React, { useState, ChangeEvent } from "react";
 import progress1 from '@/assets/images/Progress1.svg'
 import NairaLogo from '@/assets/svg-comps/naira-logo'
-import { updateName,updateDescription,updateAmount,updateImage } from '@/store/redux-slices/product-slice'
+import { updateName,updateDescription,updateAmount,updateImage, updateImageUrl } from '@/store/redux-slices/product-slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from "next/navigation";
 import DollarIcon from '@/assets/svg-comps/usdc'
 import { formatAmount } from '@/app/overview/dummydata'
-
+import axios from 'axios'
 
 function Page() {
 const[isLoading , setIsLoading]= useState<boolean>(false);
 
 const selector = useSelector((state :any)=> state.product);
-const {name, image,imageName,amount,description} = selector
+const {name, image,imageUrl,amount,description} = selector
 const dispatch =useDispatch();
 const router =useRouter();
+
+
 const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
   const { id, value } = e.target;
-  
-
   if (id === "Amount") {
     const formattedValue = formatAmount(value);
     dispatch(updateAmount(formattedValue));
@@ -50,14 +50,35 @@ const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
             break;
         }
       };
+
+      const getImageDataUrl = async (file:any) => {
+        if (!file) return;
+    
+        const formData = new FormData();
+        formData.append('image', file);
+    
+        try {
+          const response = await fetch('https://www.ribh.xyz/api/v1/product/upload', {
+            method: 'POST',
+            body: formData
+          });
+          const results = await response.json();
+            const {imageUrl} = results;
+             dispatch(updateImageUrl({ imageUrl }));
+            console.log(results, 'get this shit');
+        } catch (error) {
+          console.log('Error uploading image:', error);
+        }
+      };
       
-      const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+      const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const reader = new FileReader();
         const files = e.target.files;
     
         if (files && files[0]) {
           const file = files[0];
-    
+            await getImageDataUrl(file);
+
           reader.onload = (event) => {
             const dataURL = event?.target?.result as string;
             dispatch(updateImage({ image: dataURL }));

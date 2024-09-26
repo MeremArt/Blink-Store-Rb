@@ -37,7 +37,7 @@ function Page() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { name, image, amount, description,quantity,imageFile } = product;
+  const { name, image, amount, description, quantity, imageUrl } = product;
 
   useEffect(() => {
     const getUserId = publicKey
@@ -47,7 +47,7 @@ function Page() {
   const checkState = () => {
     return name && description && amount > 0 && image;
   };
-
+  
   // async function getUSDCtoNGNRate() {
   //   const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=usd-coin&vs_currencies=ngn');
   //   const data = await response.json();
@@ -68,7 +68,6 @@ function Page() {
     getUSDCtoNGNRate()
   },[amount])
   
-  console.log(typeof imageFile, 'lets see what is in image');
 
 
   // useEffect(()=>{
@@ -104,7 +103,7 @@ function Page() {
     const formObject = {
       merchantId: merchantId?.toString(),
       name: name,
-      image: image,
+      image: imageUrl,
       description: description,
       price: newAmount,
       amount:quantity,
