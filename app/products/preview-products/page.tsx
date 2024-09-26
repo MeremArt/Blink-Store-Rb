@@ -21,26 +21,26 @@ import { useRouter } from "next/navigation";
 import { addEvent } from "@/store/redux-slices/event-slices";
 import newPlaceholder from "@/assets/images/gallery.png";
 import { formatAmount, formatString } from "@/app/overview/dummydata";
-
+import { useWallet } from "@solana/wallet-adapter-react";
 
 function Page() {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [merchantId, setMerchantId] = useState<string | null>("");
+  const [merchantId, setMerchantId] = useState<  null| any>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [nairaAmount , setNairaAMount] = useState<string>('')
   const product = useSelector((state: any) => state.product);
   const event = useSelector((state: any) => state.event.events);
-
+  const { connected, publicKey } = useWallet();
   const details = event && event.length > 0 ? event[0] : null;
   const blink = details?.blink || "";
 
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { name, image, amount, description,quantity } = product;
+  const { name, image, amount, description,quantity,imageFile } = product;
 
   useEffect(() => {
-    const getUserId = localStorage.getItem("publicKey");
+    const getUserId = publicKey
     setMerchantId(getUserId);
   }, []);
 
@@ -68,6 +68,24 @@ function Page() {
     getUSDCtoNGNRate()
   },[amount])
   
+  console.log(typeof imageFile, 'lets see what is in image');
+
+
+  // useEffect(()=>{
+  //   const uploadToCloudinary = async()=>{
+  //     const response = await axios.post("https://www.ribh.xyz/api/v1/product/upload",
+  //       imageFile,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     console.log(response)
+  //   }
+
+  //   uploadToCloudinary()
+  // },[image])
   
   
   
@@ -81,7 +99,7 @@ function Page() {
     //   toast.error('Nothing to send')
     //   return
     // }
-    console.log(typeof merchantId?.toString(), 'checking')
+    
     const newAmount = formatString(amount)
     const formObject = {
       merchantId: merchantId?.toString(),

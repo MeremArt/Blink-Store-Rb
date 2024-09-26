@@ -19,9 +19,9 @@ type successProps={
 export default function SuccessModal({onClick, value}:successProps) {
   const event = useSelector((state: any) => state.event.events);
 const router = useRouter();
-  const details = event && event.length > 0 ? event[0] : null;
+  const details = event && event.length > 0 ? event[event.length - 1] : null;
   const blink = details?.blink || ""; 
-  
+    console.log(event, 'let me see what is in events')
   const handleCopyLink = () => {
     if (blink) {
       navigator.clipboard.writeText(blink)

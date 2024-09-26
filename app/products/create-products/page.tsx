@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import DollarIcon from '@/assets/svg-comps/usdc'
 import { formatAmount } from '@/app/overview/dummydata'
 
+
 function Page() {
 const[isLoading , setIsLoading]= useState<boolean>(false);
 
@@ -56,16 +57,15 @@ const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     
         if (files && files[0]) {
           const file = files[0];
-          const { name } = file;
     
           reader.onload = (event) => {
             const dataURL = event?.target?.result as string;
-            dispatch(updateImage({ image: dataURL, imageName: name }));
+            dispatch(updateImage({ image: dataURL }));
           };
     
           reader.readAsDataURL(file);
         } else {
-          dispatch(updateImage({ image: "", imageName: "" }));
+          dispatch(updateImage({ image: "", imageFile: {} })); 
         }
       };
 

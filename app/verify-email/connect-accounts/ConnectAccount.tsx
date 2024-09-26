@@ -64,6 +64,7 @@ const ConnectAccount: React.FC = () => {
 
   useEffect(()=>{
     const sendPublicKey = async ()=>{
+      // localStorage.setItem('publicKey', JSON.stringify(publicKey?.toString()));
       const getuserEmail = JSON.parse(localStorage.getItem("email") || "null");
       try{
         const response = await axios.patch(`https://www.ribh.xyz/api/v1/auth/connect-wallet?email=${getuserEmail}`,
@@ -81,9 +82,6 @@ const ConnectAccount: React.FC = () => {
     sendPublicKey()
   },[])
 
-  const params = new URLSearchParams(window.location.search);
-  const twitterUserId = params.get("twitterId");
-  console.log(twitterUserId, "here");
 
   useEffect(() => {
     if (isTwitterSuccess && publicKey && connected) {
