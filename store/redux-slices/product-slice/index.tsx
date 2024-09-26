@@ -4,7 +4,7 @@ export const initialProductState = {
   name: "",
   amount: '',
   image: "", 
-  imageFile:{},
+  imageUrl:'',
   description:"",
   quantity:0
 };
@@ -19,7 +19,9 @@ export const productSlice = createSlice({
       },
       updateImage: (state, { payload }) => {
         state.image = payload.image;
-        state.imageFile = payload.imageFile; 
+      },
+      updateImageUrl: (state, { payload }) => {
+        state.imageUrl= payload.imageUrl; 
       },
       updateAmount: (state, { payload }) => {
         state.amount = payload;
@@ -37,4 +39,4 @@ export const productSlice = createSlice({
   
 export const productAction = productSlice.actions;
   
-  export const{updateAmount,updateDescription,updateImage,updateName,resetProductPage,updateQuantity} = productAction;
+  export const{updateAmount,updateDescription,updateImage,updateName,resetProductPage,updateQuantity, updateImageUrl} = productAction;
