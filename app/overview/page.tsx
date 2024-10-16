@@ -324,31 +324,46 @@ function Page() {
           </div>
         </div>
         {/* /*-----second div-----/ */}
-        <div className="flex flex-row gap-16 items-start p-4  self-stretch rounded-[16px] bg-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)]">
-          <div className="flex flex-col ">
+        <div className="flex flex-row gap-2 items-start p-4  self-stretch rounded-[16px] bg-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)]">
+          <div className="flex flex-col w-1/2 ">
             <div className="flex md:flex-col items-start gap-3 self-stretch mxs:flex-row-reverse mxs:justify-between ">
-              <div className=" relative flex w-[40px] h-[40px] p-[8px] justify-center items-center">
-                <Image src={walletpic} alt="wallet-pic" fill />
+              <div className=" relative flex w-[40px] h-[40px] p-[8px] justify-center items-center  ">
+                <Image
+                  className="md:flex hidden"
+                  src={walletpic}
+                  alt="wallet-pic"
+                  fill
+                />
               </div>
               <div>
-                <Typography customClassName="text-[#48258B] font-inter text-[16px] font-medium leading-normal">
+                <Typography customClassName="text-[#48258B] font-inter md:text-[16px] text-[14px]  font-medium leading-normal md:py-0 py-2">
                   Wallet Balance
                 </Typography>
               </div>
             </div>
-            <div className="flex items-center gap-[7px] self-stretch">
-              <DollarIcon />
-              <Typography customClassName="text-[#000] font-inter text-[32px] font-bold leading-normal">
-                <p>{usdcBalance}</p>
-              </Typography>
+            <div className="flex items-center md:gap-[9px] self-stretch gap-40">
+              <div>
+                <DollarIcon />
+                <Typography customClassName="text-[#000] font-inter text-[32px] font-bold leading-normal">
+                  <p>{usdcBalance}</p>
+                </Typography>
+              </div>
+              <div className="flex md:hidden">
+                <Button
+                  label="Cashout"
+                  onClick={() => router.push("/products/create-products")}
+                  fit
+                  customClassName="flex mf:h-[56px] bg-btn-gradient   md:p-[16px_24px] justify-center items-center gap-[8px] rounded-[32px] text-white p-[13px_21px] h-[52px] "
+                />
+              </div>
             </div>
           </div>
-          <div>
+          <div className="w-1/2 py-3 hidden md:flex ">
             <Button
               label="Cashout"
               onClick={() => router.push("/products/create-products")}
               fit
-              customClassName="flex h-[56px] bg-btn-gradient   p-[16px_24px] justify-center items-center gap-[8px] rounded-[32px] text-white"
+              customClassName="flex bg-btn-gradient justify-center items-center gap-[8px] rounded-[32px] text-white  p-[16px_24px] h-[56px]"
             />
           </div>
         </div>
