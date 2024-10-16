@@ -9,6 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
+        "btn-gradient": "linear-gradient(90deg, #D29FFF, #5C52FF, #D8C7FF)",
       },
       fontWeight: {
         thin: "100",

@@ -324,31 +324,42 @@ function Page() {
           </div>
         </div>
         {/* /*-----second div-----/ */}
-        <div className="flex flex-col items-start p-4 gap-3 self-stretch rounded-[16px] bg-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)]">
-          <div className="flex md:flex-col items-start gap-2 self-stretch mxs:flex-row-reverse mxs:justify-between ">
-            <div className=" relative flex w-[40px] h-[40px] p-[8px] justify-center items-center">
-              <Image src={walletpic} alt="wallet-pic" fill />
+        <div className="flex flex-row gap-16 items-start p-4  self-stretch rounded-[16px] bg-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)]">
+          <div className="flex flex-col ">
+            <div className="flex md:flex-col items-start gap-3 self-stretch mxs:flex-row-reverse mxs:justify-between ">
+              <div className=" relative flex w-[40px] h-[40px] p-[8px] justify-center items-center">
+                <Image src={walletpic} alt="wallet-pic" fill />
+              </div>
+              <div>
+                <Typography customClassName="text-[#48258B] font-inter text-[16px] font-medium leading-normal">
+                  Wallet Balance
+                </Typography>
+              </div>
             </div>
-            <div>
-              <Typography customClassName="text-[#48258B] font-inter text-[16px] font-medium leading-normal">
-                Wallet Balance
+            <div className="flex items-center gap-[7px] self-stretch">
+              <DollarIcon />
+              <Typography customClassName="text-[#000] font-inter text-[32px] font-bold leading-normal">
+                <p>{usdcBalance}</p>
               </Typography>
             </div>
           </div>
-          <div className="flex items-center gap-[7px] self-stretch">
-            <DollarIcon />
-            <Typography customClassName="text-[#000] font-inter text-[32px] font-bold leading-normal">
-              <p>{usdcBalance}</p>
-            </Typography>
+          <div>
+            <Button
+              label="Cashout"
+              onClick={() => router.push("/products/create-products")}
+              fit
+              customClassName="flex h-[56px] bg-btn-gradient   p-[16px_24px] justify-center items-center gap-[8px] rounded-[32px] text-white"
+            />
           </div>
         </div>
+
         {/* /*-----third div-----/ */}
         <div className="flex flex-col items-start p-4 gap-3 self-stretch rounded-[16px] bg-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)]">
           <div className="flex md:flex-col items-start gap-2 self-stretch mxs:flex-row-reverse mxs:justify-between ">
             <Coin />
             <div>
               <Typography customClassName="text-[#48258B] font-inter text-[16px] font-medium leading-normal">
-                Total Earnings 
+                Total Earnings
               </Typography>
             </div>
           </div>
