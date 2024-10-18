@@ -7,6 +7,7 @@ import profile from "@/assets/images/profileAvatar.svg";
 import { Typography } from "@/components/typography";
 import walletpic from "@/assets/images/walletsvg.svg";
 import DollarIcon from "@/assets/svg-comps/usdc";
+import Link from "next/link";
 import Coin from "@/assets/svg-comps/coin";
 import ShoppingBag from "@/assets/svg-comps/shopping-bag";
 import container from "@/assets/images/Containerblock.svg";
@@ -349,22 +350,24 @@ function Page() {
                 </Typography>
               </div>
               <div className="flex md:hidden">
-                <Button
-                  label="Cashout"
-                  onClick={() => router.push("/products/create-products")}
-                  fit
-                  customClassName="flex mf:h-[56px] bg-btn-gradient   md:p-[16px_24px] justify-center items-center gap-[8px] rounded-[32px] text-white p-[13px_21px] h-[52px] "
-                />
+                <Link href="https://exchange.mercuryo.io/?currency=USDC&type=sell&widget_id=f5453986-278b-4bc3-afb3-82d9cd6c406c&network=SOLANA">
+                  <Button
+                    label="Cashout"
+                    fit
+                    customClassName="flex mf:h-[56px] bg-btn-gradient   md:p-[16px_24px] justify-center items-center gap-[8px] rounded-[32px] text-white p-[13px_21px] h-[52px] "
+                  />
+                </Link>
               </div>
             </div>
           </div>
           <div className="w-1/2 py-3 hidden md:flex ">
-            <Button
-              label="Cashout"
-              onClick={() => router.push("/products/create-products")}
-              fit
-              customClassName="flex bg-btn-gradient justify-center items-center gap-[8px] rounded-[32px] text-white  p-[16px_24px] h-[56px]"
-            />
+            <Link href="https://exchange.mercuryo.io/?currency=USDC&type=sell&widget_id=f5453986-278b-4bc3-afb3-82d9cd6c406c&network=SOLANA">
+              <Button
+                label="Cashout"
+                fit
+                customClassName="flex bg-btn-gradient justify-center items-center gap-[8px] rounded-[32px] text-white  p-[16px_24px] h-[56px]"
+              />
+            </Link>
           </div>
         </div>
 
